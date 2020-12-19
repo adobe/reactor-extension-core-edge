@@ -7,3 +7,4 @@ coverage
 jest.config.js
 webpack.config.js
 package-core-*.zip
+__tests__helpers__
