@@ -1,0 +1,261 @@
+{
+  "name": "core",
+  "platform": "edge",
+  "version": "1.0.0",
+  "displayName": "Core",
+  "description": "Provides default condition and data element types available to all Launch properties.",
+  "exchangeUrl": "https://www.adobeexchange.com/experiencecloud.details.100223.adobe-launch-core-extension.html",
+  "iconPath": "resources/icons/core.svg",
+  "author": {
+    "name": "Adobe",
+    "url": "http://adobe.com",
+    "email": "reactor@adobe.com"
+  },
+  "viewBasePath": "dist/",
+  "conditions": [
+    {
+      "name": "value-comparison",
+      "categoryName": "Data",
+      "displayName": "Value Comparison",
+      "libPath": "src/lib/conditions/valueComparison.js",
+      "viewPath": "conditions/valueComparison.html",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "type": "object",
+        "oneOf": [
+          {
+            "properties": {
+              "leftOperand": {
+                "type": "string",
+                "pattern": "^{{([^}]+)}}$"
+              },
+              "comparison": {
+                "type": "object",
+                "properties": {
+                  "operator": {
+                    "type": "string",
+                    "enum": ["equals", "doesNotEqual"]
+                  },
+                  "caseInsensitive": {
+                    "type": "boolean"
+                  }
+                },
+                "required": ["operator"],
+                "additionalProperties": false
+              },
+              "rightOperand": {
+                "oneOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              }
+            },
+            "required": ["leftOperand", "comparison", "rightOperand"],
+            "additionalProperties": false
+          },
+          {
+            "properties": {
+              "leftOperand": {
+                "type": "string",
+                "pattern": "^{{([^}]+)}}$"
+              },
+              "comparison": {
+                "type": "object",
+                "properties": {
+                  "operator": {
+                    "type": "string",
+                    "enum": [
+                      "contains",
+                      "doesNotContain",
+                      "startsWith",
+                      "doesNotStartWith",
+                      "endsWith",
+                      "doesNotEndWith",
+                      "matchesRegex",
+                      "doesNotMatchRegex"
+                    ]
+                  },
+                  "caseInsensitive": {
+                    "type": "boolean"
+                  }
+                },
+                "required": ["operator"],
+                "additionalProperties": false
+              },
+              "rightOperand": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": ["leftOperand", "comparison", "rightOperand"],
+            "additionalProperties": false
+          },
+          {
+            "properties": {
+              "leftOperand": {
+                "type": "string",
+                "pattern": "^{{([^}]+)}}$"
+              },
+              "comparison": {
+                "type": "object",
+                "properties": {
+                  "operator": {
+                    "type": "string",
+                    "enum": [
+                      "lessThan",
+                      "lessThanOrEqual",
+                      "greaterThan",
+                      "greaterThanOrEqual"
+                    ]
+                  }
+                },
+                "required": ["operator"],
+                "additionalProperties": false
+              },
+              "rightOperand": {
+                "oneOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^{{([^}]+)}}$"
+                  }
+                ]
+              }
+            },
+            "required": ["leftOperand", "comparison", "rightOperand"],
+            "additionalProperties": false
+          },
+          {
+            "properties": {
+              "leftOperand": {
+                "type": "string",
+                "pattern": "^{{([^}]+)}}$"
+              },
+              "comparison": {
+                "type": "object",
+                "properties": {
+                  "operator": {
+                    "type": "string",
+                    "enum": ["isTrue", "isTruthy", "isFalse", "isFalsy"]
+                  }
+                },
+                "required": ["operator"],
+                "additionalProperties": false
+              }
+            },
+            "required": ["leftOperand", "comparison"],
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "custom-code",
+      "categoryName": "Data",
+      "displayName": "Custom Code",
+      "libPath": "src/lib/conditions/customCode.js",
+      "viewPath": "conditions/customCode.html",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false,
+        "required": ["source"]
+      },
+      "transforms": [
+        {
+          "type": "function",
+          "propertyPath": "source",
+          "parameters": ["arc", "utils"]
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "name": "custom-code",
+      "displayName": "Custom Code",
+      "libPath": "src/lib/actions/customCode.js",
+      "viewPath": "actions/customCode.html",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "type": "object",
+        "properties": {
+          "keyName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false,
+        "required": ["keyName", "source"]
+      },
+      "transforms": [
+        {
+          "type": "function",
+          "propertyPath": "source",
+          "parameters": ["arc", "utils"]
+        }
+      ]
+    }
+  ],
+  "dataElements": [
+    {
+      "name": "path",
+      "displayName": "Path",
+      "libPath": "src/lib/dataElements/path.js",
+      "viewPath": "dataElements/path.html",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false,
+        "required": ["path"]
+      }
+    },
+    {
+      "name": "custom-code",
+      "displayName": "Custom Code",
+      "libPath": "src/lib/dataElements/customCode.js",
+      "viewPath": "dataElements/customCode.html",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false,
+        "required": ["source"]
+      },
+      "transforms": [
+        {
+          "type": "function",
+          "propertyPath": "source",
+          "parameters": ["arc", "utils"]
+        }
+      ]
+    }
+  ]
+}

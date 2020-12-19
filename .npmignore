@@ -1,0 +1,9 @@
+__tests__
+src/view
+createEntryFile.js
+\.*
+adobe-reactor-extension-core-edge-*.tgz
+coverage
+jest.config.js
+webpack.config.js
+package-core-*.zip
