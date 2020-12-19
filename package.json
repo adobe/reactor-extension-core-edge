@@ -20,6 +20,7 @@
     "build:watch": "webpack --mode development --watch",
     "sandbox": "concurrently -k -n webpack,sandbox -c \"bgBlue,bgMagenta\" \"npm run build:watch\" \"reactor-sandbox\"",
     "package": "npm run build && npx @adobe/reactor-packager",
+    "prepack": "npm test && npm run build",
     "lint": "eslint 'src/**'",
     "format": "pretty-quick",
     "test": "jest --coverage",
