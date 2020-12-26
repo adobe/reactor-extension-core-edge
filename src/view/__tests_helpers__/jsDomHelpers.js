@@ -15,22 +15,15 @@ import { fireEvent, screen } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 
 export const changePickerValue = async (select, newValue) => {
-  const { getAllByText } = screen;
-  let spans;
+  const { findByText } = screen;
+  let span;
 
   await act(async () => {
     fireEvent.click(select);
-  });
-
-  await act(() => {
-    return new Promise((resolve) => {
-      setTimeout(resolve, 20);
+    span = await findByText(newValue, {
+      selector: 'span[class^="_spectrum-Menu"]'
     });
-  });
-
-  await act(async () => {
-    spans = getAllByText(newValue, { selector: 'span' });
-    fireEvent.click(spans[spans.length - 1]);
+    fireEvent.click(span);
   });
 };
 
