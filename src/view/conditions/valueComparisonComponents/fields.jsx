@@ -23,6 +23,7 @@ import {
 } from '@adobe/react-spectrum';
 import Alert from '@spectrum-icons/workflow/Alert';
 import WrappedTextField from '../../components/wrappedTextField';
+import RegexTestButton from '../../components/regexTestButton';
 import metaByOperator from './metaByOperator';
 import operators from './operators';
 
@@ -48,9 +49,63 @@ const NoTypeConversionReminder = ({ operator, value }) => {
   ) : null;
 };
 
+const RightOperandFields = ({
+  control,
+  operator,
+  caseInsensitive,
+  rightOperand
+}) => {
+  if (operator && metaByOperator[operator].supportsRightOperand) {
+    return operator === operators.MATCHES_REGEX ||
+      operator === operators.DOES_NOT_MATCH_REGEX ? (
+      <Flex gap="size-100" alignItems="end">
+        <View minWidth="size-4600">
+          <WrappedTextField
+            label="Right Operand"
+            name="rightOperand"
+            width="100%"
+            supportDataElement
+          />
+        </View>
+
+        <Controller
+          control={control}
+          defaultValue={operatorOptions[0].id}
+          name="rightOperand"
+          render={({ onChange, value }) => (
+            <View marginBottom="size-200">
+              <RegexTestButton
+                onChange={onChange}
+                value={value}
+                flags={caseInsensitive ? 'i' : ''}
+              />
+            </View>
+          )}
+        />
+      </Flex>
+    ) : (
+      <Flex direction="column" width="size-4600">
+        <WrappedTextField
+          label="Right Operand"
+          name="rightOperand"
+          width="100%"
+          supportDataElement
+        />
+        <NoTypeConversionReminder operator={operator} value={rightOperand} />
+      </Flex>
+    );
+  }
+
+  return null;
+};
+
 export default () => {
   const { control, watch } = useFormContext();
-  const { operator, rightOperand } = watch(['operator', 'rightOperand']);
+  const { operator, rightOperand, caseInsensitive } = watch([
+    'operator',
+    'rightOperand',
+    'caseInsensitive'
+  ]);
 
   return (
     <>
@@ -74,7 +129,7 @@ export default () => {
           render={({ onChange, onBlur, value }) => (
             <Picker
               label="Operator"
-              width="size-4600"
+              minWidth="size-4600"
               items={operatorOptions}
               selectedKey={value}
               onSelectionChange={onChange}
@@ -84,30 +139,29 @@ export default () => {
             </Picker>
           )}
         />
-        <View>
-          <Controller
-            control={control}
-            defaultValue=""
-            name="caseInsensitive"
-            render={({ onChange, value }) => (
-              <Checkbox isSelected={value} onChange={onChange}>
-                Case insensitive
-              </Checkbox>
-            )}
-          />
-        </View>
-      </Flex>
 
-      <Flex direction="column" width="size-4600">
-        <WrappedTextField
-          name="rightOperand"
-          supportDataElement
-          label="Right Operand"
-          width="100%"
+        <Controller
+          control={control}
+          defaultValue=""
+          name="caseInsensitive"
+          render={({ onChange, value }) => (
+            <Checkbox
+              minWidth="size-2400"
+              isSelected={value}
+              onChange={onChange}
+            >
+              Case insensitive
+            </Checkbox>
+          )}
         />
-
-        <NoTypeConversionReminder operator={operator} value={rightOperand} />
       </Flex>
+
+      <RightOperandFields
+        operator={operator}
+        control={control}
+        caseInsensitive={caseInsensitive}
+        rightOperand={rightOperand}
+      />
     </>
   );
 };
