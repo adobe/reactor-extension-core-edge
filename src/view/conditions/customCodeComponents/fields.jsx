@@ -24,7 +24,11 @@ import Info from '@spectrum-icons/workflow/Info';
 import EditorButton from '../../components/editorButton';
 
 export default () => {
-  const { control, errors, trigger } = useFormContext();
+  const {
+    control,
+    formState: { errors },
+    trigger
+  } = useFormContext();
 
   return (
     <Flex>
@@ -32,7 +36,7 @@ export default () => {
         control={control}
         defaultValue=""
         name="source"
-        render={({ onChange, value }) => (
+        render={({ field: { onChange, value } }) => (
           <View>
             <EditorButton
               width="size-2000"

@@ -50,7 +50,8 @@ const NoTypeConversionReminder = ({ operator, value }) => {
 };
 
 const RightOperandFields = ({
-  control,
+  setValue,
+  watch,
   operator,
   caseInsensitive,
   rightOperand
@@ -68,20 +69,18 @@ const RightOperandFields = ({
           />
         </View>
 
-        <Controller
-          control={control}
-          defaultValue={operatorOptions[0].id}
-          name="rightOperand"
-          render={({ onChange, value }) => (
-            <View marginBottom="size-200">
-              <RegexTestButton
-                onChange={onChange}
-                value={value}
-                flags={caseInsensitive ? 'i' : ''}
-              />
-            </View>
-          )}
-        />
+        <View marginBottom="size-200">
+          <RegexTestButton
+            onChange={(v) => {
+              setValue('rightOperand', v, {
+                shouldValidate: true,
+                shouldDirty: true
+              });
+            }}
+            value={watch('rightOperand')}
+            flags={caseInsensitive ? 'i' : ''}
+          />
+        </View>
       </Flex>
     ) : (
       <Flex direction="column" width="size-4600">
@@ -100,8 +99,9 @@ const RightOperandFields = ({
 };
 
 export default () => {
-  const { control, watch } = useFormContext();
-  const { operator, rightOperand, caseInsensitive } = watch([
+  const { control, watch, setValue } = useFormContext();
+
+  const [operator, rightOperand, caseInsensitive] = watch([
     'operator',
     'rightOperand',
     'caseInsensitive'
@@ -126,7 +126,7 @@ export default () => {
           control={control}
           defaultValue={operatorOptions[0].id}
           name="operator"
-          render={({ onChange, onBlur, value }) => (
+          render={({ field: { onChange, onBlur, value } }) => (
             <Picker
               label="Operator"
               minWidth="size-4600"
@@ -144,7 +144,7 @@ export default () => {
           control={control}
           defaultValue=""
           name="caseInsensitive"
-          render={({ onChange, value }) => (
+          render={({ field: { onChange, value } }) => (
             <Checkbox
               minWidth="size-2400"
               isSelected={value}
@@ -157,8 +157,9 @@ export default () => {
       </Flex>
 
       <RightOperandFields
+        watch={watch}
         operator={operator}
-        control={control}
+        setValue={setValue}
         caseInsensitive={caseInsensitive}
         rightOperand={rightOperand}
       />

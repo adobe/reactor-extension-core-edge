@@ -16,14 +16,18 @@ import { Text, View } from '@adobe/react-spectrum';
 import EditorButton from '../../components/editorButton';
 
 export default () => {
-  const { control, errors, trigger } = useFormContext();
+  const {
+    control,
+    formState: { errors },
+    trigger
+  } = useFormContext();
 
   return (
     <Controller
       control={control}
       name="source"
       defaultValue=""
-      render={({ onChange, value }) => (
+      render={({ field: { onChange, value } }) => (
         <>
           <EditorButton
             onChange={(code) => {

@@ -33,17 +33,15 @@ afterEach(() => {
   delete window.extensionBridge;
 });
 
-const getFromFields = () => {
-  const { queryByLabelText, queryByText } = screen;
-
-  return {
-    leftOperandTextfield: queryByLabelText(/left operand/i),
-    rightOperandTextfield: queryByLabelText(/right operand/i),
-    operatorSelect: queryByLabelText(/operator/i, { selector: 'button' }),
-    caseInsensitiveCheckbox: queryByLabelText(/case insensitive/i),
-    noTypeConversionReminders: queryByText(/be aware that the value/i)
-  };
-};
+const getFromFields = () => ({
+  leftOperandTextfield: screen.queryByLabelText(/left operand/i),
+  rightOperandTextfield: screen.queryByLabelText(/right operand/i),
+  operatorSelect: screen.queryByLabelText(/operator/i, {
+    selector: 'button'
+  }),
+  caseInsensitiveCheckbox: screen.queryByLabelText(/case insensitive/i),
+  noTypeConversionReminders: screen.queryByText(/be aware that the value/i)
+});
 
 describe('value comparison condition view', () => {
   beforeEach(() => {
@@ -99,10 +97,8 @@ describe('value comparison condition view', () => {
             );
           });
 
-          const {
-            rightOperandTextfield,
-            caseInsensitiveCheckbox
-          } = getFromFields();
+          const { rightOperandTextfield, caseInsensitiveCheckbox } =
+            getFromFields();
 
           await act(async () => {
             inputOnChange(rightOperandTextfield, '123');
@@ -134,10 +130,8 @@ describe('value comparison condition view', () => {
             expect(extensionBridge.validate()).resolves.toBe(false);
           });
 
-          const {
-            leftOperandTextfield,
-            rightOperandTextfield
-          } = getFromFields();
+          const { leftOperandTextfield, rightOperandTextfield } =
+            getFromFields();
 
           expect(leftOperandTextfield).toHaveAttribute('aria-invalid', 'true');
           // We allow empty strings for equals operands because users may want to check to
@@ -205,10 +199,8 @@ describe('value comparison condition view', () => {
             metaByOperator[operator].label
           );
 
-          const {
-            rightOperandTextfield,
-            caseInsensitiveCheckbox
-          } = getFromFields();
+          const { rightOperandTextfield, caseInsensitiveCheckbox } =
+            getFromFields();
 
           inputOnChange(rightOperandTextfield, 'bar');
           fireEvent.click(caseInsensitiveCheckbox);
@@ -238,10 +230,8 @@ describe('value comparison condition view', () => {
             expect(extensionBridge.validate()).resolves.toBe(false);
           });
 
-          const {
-            leftOperandTextfield,
-            rightOperandTextfield
-          } = getFromFields();
+          const { leftOperandTextfield, rightOperandTextfield } =
+            getFromFields();
 
           expect(leftOperandTextfield).toHaveAttribute('aria-invalid', 'true');
           expect(rightOperandTextfield).toHaveAttribute('aria-invalid', 'true');
@@ -327,10 +317,8 @@ describe('value comparison condition view', () => {
             expect(extensionBridge.validate()).resolves.toBe(false);
           });
 
-          const {
-            leftOperandTextfield,
-            rightOperandTextfield
-          } = getFromFields();
+          const { leftOperandTextfield, rightOperandTextfield } =
+            getFromFields();
 
           expect(leftOperandTextfield).toHaveAttribute('aria-invalid', 'true');
           expect(rightOperandTextfield).toHaveAttribute('aria-invalid', 'true');
