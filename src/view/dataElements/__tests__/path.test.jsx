@@ -28,13 +28,9 @@ afterEach(() => {
   delete window.extensionBridge;
 });
 
-const getFromFields = () => {
-  const { queryByLabelText } = screen;
-
-  return {
-    pathTextfield: queryByLabelText(/path/i)
-  };
-};
+const getFromFields = () => ({
+  pathTextfield: screen.queryByLabelText(/path/i)
+});
 
 describe('path data element view', () => {
   beforeEach(() => {

@@ -28,20 +28,17 @@ const castToStringIfNumber = (operand) =>
 const castToNumberIfString = (operand) =>
   isString(operand) ? Number(operand) : operand;
 
-const guardStringCompare = (compare) => (
-  leftOperand,
-  rightOperand,
-  caseInsensitive
-) => {
-  leftOperand = castToStringIfNumber(leftOperand);
-  rightOperand = castToStringIfNumber(rightOperand);
+const guardStringCompare =
+  (compare) => (leftOperand, rightOperand, caseInsensitive) => {
+    leftOperand = castToStringIfNumber(leftOperand);
+    rightOperand = castToStringIfNumber(rightOperand);
 
-  return (
-    isString(leftOperand) &&
-    isString(rightOperand) &&
-    compare(leftOperand, rightOperand, caseInsensitive)
-  );
-};
+    return (
+      isString(leftOperand) &&
+      isString(rightOperand) &&
+      compare(leftOperand, rightOperand, caseInsensitive)
+    );
+  };
 
 const guardNumberCompare = (compare) => (leftOperand, rightOperand) => {
   leftOperand = castToNumberIfString(leftOperand);
@@ -54,16 +51,13 @@ const guardNumberCompare = (compare) => (leftOperand, rightOperand) => {
   );
 };
 
-const guardCaseSensitivity = (compare) => (
-  leftOperand,
-  rightOperand,
-  caseInsensitive
-) => {
-  return compare(
-    updateCase(leftOperand, caseInsensitive),
-    updateCase(rightOperand, caseInsensitive)
-  );
-};
+const guardCaseSensitivity =
+  (compare) => (leftOperand, rightOperand, caseInsensitive) => {
+    return compare(
+      updateCase(leftOperand, caseInsensitive),
+      updateCase(rightOperand, caseInsensitive)
+    );
+  };
 
 const conditions = {
   equals: guardCaseSensitivity(

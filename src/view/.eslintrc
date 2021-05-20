@@ -12,8 +12,7 @@
     "airbnb",
     "plugin:jest-dom/recommended",
     "plugin:testing-library/react",
-    "plugin:prettier/recommended",
-    "prettier/react"
+    "plugin:prettier/recommended"
   ],
   "plugins": ["react-hooks"],
   "rules": {

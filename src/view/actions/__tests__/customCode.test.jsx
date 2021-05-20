@@ -28,15 +28,13 @@ afterEach(() => {
   delete window.extensionBridge;
 });
 
-const getFromFields = () => {
-  const { queryByLabelText, queryByText } = screen;
-
-  return {
-    keyNameTextfield: queryByLabelText(/key name/i),
-    openEditorButton: queryByText(/open editor/i),
-    openEditorButtonErrorMessage: queryByText(/please provide a custom script/i)
-  };
-};
+const getFromFields = () => ({
+  keyNameTextfield: screen.queryByLabelText(/key name/i),
+  openEditorButton: screen.queryByText(/open editor/i),
+  openEditorButtonErrorMessage: screen.queryByText(
+    /please provide a custom script/i
+  )
+});
 
 describe('custom code action view', () => {
   beforeEach(() => {

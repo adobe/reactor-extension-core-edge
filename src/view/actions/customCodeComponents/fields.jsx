@@ -25,7 +25,13 @@ import EditorButton from '../../components/editorButton';
 import WrappedTextField from '../../components/wrappedTextField';
 
 export default () => {
-  const { control, errors, trigger, watch } = useFormContext();
+  const {
+    control,
+    formState: { errors },
+    trigger,
+    watch
+  } = useFormContext();
+
   const keyName = watch('keyName');
 
   return (
@@ -45,7 +51,7 @@ export default () => {
           control={control}
           name="source"
           defaultValue=""
-          render={({ onChange, value }) => (
+          render={({ field: { onChange, value } }) => (
             <View>
               <EditorButton
                 width="size-2000"

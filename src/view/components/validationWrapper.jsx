@@ -44,7 +44,9 @@ const showError = (obj, path) => {
 export default ({ children, width }) => {
   const [firstChild, ...restChildren] = children;
   const fieldName = firstChild.props.name;
-  const { errors } = useFormContext();
+  const {
+    formState: { errors }
+  } = useFormContext();
 
   const showErrorResult = showError(errors, fieldName);
 

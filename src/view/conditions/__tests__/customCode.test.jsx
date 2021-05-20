@@ -27,14 +27,12 @@ afterEach(() => {
   delete window.extensionBridge;
 });
 
-const getFromFields = () => {
-  const { queryByText } = screen;
-
-  return {
-    openEditorButton: queryByText(/open editor/i),
-    openEditorButtonErrorMessage: queryByText(/please provide a custom script/i)
-  };
-};
+const getFromFields = () => ({
+  openEditorButton: screen.queryByText(/open editor/i),
+  openEditorButtonErrorMessage: screen.queryByText(
+    /please provide a custom script/i
+  )
+});
 
 describe('custom code data element view', () => {
   beforeEach(() => {
