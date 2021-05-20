@@ -30,8 +30,9 @@ export default () => {
 
   return (
     <>
-      <View marginBottom="size-150">
+      <View marginBottom="size-150" minWidth="size-3000" maxWidth="size-6000">
         <WrappedTextField
+          width="100%"
           name="keyName"
           label="Key Name"
           isRequired

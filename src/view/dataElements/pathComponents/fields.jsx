@@ -11,13 +11,17 @@ governing permissions and limitations under the License.
 */
 
 import React from 'react';
+import { View } from '@adobe/react-spectrum';
 import WrappedTextField from '../../components/wrappedTextField';
 
 export default () => (
-  <WrappedTextField
-    name="path"
-    label="Path"
-    isRequired
-    necessityIndicator="label"
-  />
+  <View minWidth="size-3000" maxWidth="size-6000">
+    <WrappedTextField
+      width="100%"
+      name="path"
+      label="Path"
+      isRequired
+      necessityIndicator="label"
+    />
+  </View>
 );
