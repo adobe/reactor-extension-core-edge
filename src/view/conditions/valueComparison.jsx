@@ -13,10 +13,10 @@ governing permissions and limitations under the License.
 import React from 'react';
 import ExtensionView from '../components/extensionView';
 
-import Fields from './valueComparisonComponents/fields';
-import getInitialValues from './valueComparisonComponents/getInitValues';
-import getSettings from './valueComparisonComponents/getSettings';
-import validate from './valueComparisonComponents/validate';
+import Fields from './valueComparison/components/fields';
+import getInitialValues from './valueComparison/form/getInitValues';
+import getSettings from './valueComparison/form/getSettings';
+import validate from './valueComparison/form/validate';
 
 export default () => {
   return (

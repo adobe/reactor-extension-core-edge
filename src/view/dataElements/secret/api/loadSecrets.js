@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Adobe. All rights reserved.
+Copyright 2021 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -10,19 +10,14 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import operators from './operators';
+import fetch, { getFetchSettings } from '../../../utils/fetch';
 
-export default ({ settings }) => {
-  const leftOperand = settings?.leftOperand || '';
-  const rightOperand =
-    settings?.rightOperand != null ? String(settings?.rightOperand) : '';
-  const operator = settings?.comparison?.operator || operators.EQUALS;
-  const caseInsensitive = Boolean(settings?.comparison?.caseInsensitive);
+export default () => {
+  const { propertyId } = getFetchSettings();
 
-  return {
-    leftOperand,
-    rightOperand,
-    operator,
-    caseInsensitive
-  };
+  const url =
+    `/properties/${propertyId}/` +
+    'secrets?page[size]=999&page[number]=1&filter[environment_id]=NOT%20null';
+
+  return fetch(url);
 };

@@ -29,13 +29,9 @@ describe('custom code condition delegate', () => {
       getSettings: () => settings
     };
 
-    spyOn(settings, 'source').and.callThrough();
+    jest.spyOn(settings, 'source');
     conditionDelegate({ arc, utils });
 
-    expect(settings.source.calls.first()).toEqual({
-      object: expect.any(Object),
-      args: [arc, utils],
-      returnValue: true
-    });
+    expect(settings.source.mock.calls[0]).toEqual([arc, utils]);
   });
 });

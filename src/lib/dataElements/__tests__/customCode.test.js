@@ -31,13 +31,9 @@ describe('custom code data element delegate', () => {
       getSettings: () => settings
     };
 
-    spyOn(settings, 'source').and.callThrough();
+    jest.spyOn(settings, 'source');
     dataElementDelegate({ arc, utils });
 
-    expect(settings.source.calls.first()).toEqual({
-      object: jasmine.any(Object),
-      args: [arc, utils],
-      returnValue: true
-    });
+    expect(settings.source.mock.calls[0]).toEqual([arc, utils]);
   });
 });

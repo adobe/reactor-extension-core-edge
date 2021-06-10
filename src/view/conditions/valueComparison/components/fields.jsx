@@ -22,10 +22,10 @@ import {
   Well
 } from '@adobe/react-spectrum';
 import Alert from '@spectrum-icons/workflow/Alert';
-import WrappedTextField from '../../components/wrappedTextField';
-import RegexTestButton from '../../components/regexTestButton';
-import metaByOperator from './metaByOperator';
-import operators from './operators';
+import WrappedTextField from '../../../components/wrappedTextField';
+import RegexTestButton from '../../../components/regexTestButton';
+import metaByOperator from '../helpers/metaByOperator';
+import operators from '../helpers/operators';
 
 const operatorOptions = Object.keys(metaByOperator).map((operator) => ({
   id: operator,

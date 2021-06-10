@@ -11,22 +11,17 @@ governing permissions and limitations under the License.
 */
 
 import React from 'react';
-import ExtensionView from '../components/extensionView';
+import { View } from '@adobe/react-spectrum';
+import WrappedTextField from '../../../components/wrappedTextField';
 
-import Fields from './customCode/components/fields';
-import getInitialValues from './customCode/form/getInitValues';
-import getSettings from './customCode/form/getSettings';
-import validate from './customCode/form/validate';
-
-export default () => {
-  return (
-    <ExtensionView
-      getInitialValues={({ initInfo }) => ({
-        ...getInitialValues(initInfo)
-      })}
-      getSettings={({ values }) => ({ ...getSettings(values) })}
-      validate={(values) => ({ ...validate(values) })}
-      render={() => <Fields />}
+export default () => (
+  <View minWidth="size-3000" maxWidth="size-6000">
+    <WrappedTextField
+      width="100%"
+      name="path"
+      label="Path"
+      isRequired
+      necessityIndicator="label"
     />
-  );
-};
+  </View>
+);

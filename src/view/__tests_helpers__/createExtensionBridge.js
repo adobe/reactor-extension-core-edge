@@ -16,8 +16,14 @@ export default () => {
     register(options) {
       registeredOptions = options;
     },
-    init(...args) {
-      return registeredOptions.init.apply(this, args);
+    init(initInfo) {
+      initInfo = {
+        company: { orgId: 'ORG_ID' },
+        tokens: { imsAccess: 'IMS_ACCESS' },
+        propertySettings: { id: 'PROPERTY_ID' },
+        ...initInfo
+      };
+      return registeredOptions.init.apply(this, [initInfo]);
     },
     validate(...args) {
       return registeredOptions.validate.apply(this, args);
@@ -29,6 +35,10 @@ export default () => {
       return Promise.resolve(`${code} + modified code`);
     },
     openRegexTester() {},
-    openDataElementSelector() {}
+    openDataElementSelector({ tokenize }) {
+      return Promise.resolve(
+        tokenize ? '%data element name%' : 'data element name'
+      );
+    }
   };
 };

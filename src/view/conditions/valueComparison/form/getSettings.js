@@ -10,8 +10,8 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import metaByOperator from './metaByOperator';
-import { isNumberLike } from '../../utils/validators';
+import metaByOperator from '../helpers/metaByOperator';
+import { isNumberLike } from '../../../utils/validators';
 
 export default ({ leftOperand, rightOperand, operator, caseInsensitive }) => {
   const settings = {

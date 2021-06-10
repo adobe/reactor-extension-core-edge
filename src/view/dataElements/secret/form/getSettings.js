@@ -10,23 +10,22 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import React from 'react';
-import ExtensionView from '../components/extensionView';
+export default (settings) => {
+  const { secrets } = settings;
 
-import Fields from './path/components/fields';
-import getInitialValues from './path/form/getInitValues';
-import getSettings from './path/form/getSettings';
-import validate from './path/form/validate';
+  ['development', 'staging', 'production'].forEach((stage) => {
+    if (secrets[stage] && !secrets[stage].id) {
+      delete secrets[stage];
+    }
+  });
 
-export default () => {
-  return (
-    <ExtensionView
-      getInitialValues={({ initInfo }) => ({
-        ...getInitialValues(initInfo)
-      })}
-      getSettings={({ values }) => ({ ...getSettings(values) })}
-      validate={(values) => ({ ...validate(values) })}
-      render={() => <Fields />}
-    />
-  );
+  if (
+    secrets &&
+    Object.keys(secrets).length === 0 &&
+    secrets.constructor === Object
+  ) {
+    delete settings.secrets;
+  }
+
+  return settings;
 };

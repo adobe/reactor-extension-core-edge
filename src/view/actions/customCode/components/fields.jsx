@@ -21,8 +21,8 @@ import {
   View
 } from '@adobe/react-spectrum';
 import Info from '@spectrum-icons/workflow/Info';
-import EditorButton from '../../components/editorButton';
-import WrappedTextField from '../../components/wrappedTextField';
+import EditorButton from '../../../components/editorButton';
+import WrappedTextField from '../../../components/wrappedTextField';
 
 export default () => {
   const {

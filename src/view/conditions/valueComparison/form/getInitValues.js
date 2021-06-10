@@ -10,23 +10,19 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import React from 'react';
-import ExtensionView from '../components/extensionView';
+import operators from '../helpers/operators';
 
-import Fields from './path/components/fields';
-import getInitialValues from './path/form/getInitValues';
-import getSettings from './path/form/getSettings';
-import validate from './path/form/validate';
+export default ({ settings }) => {
+  const leftOperand = settings?.leftOperand || '';
+  const rightOperand =
+    settings?.rightOperand != null ? String(settings?.rightOperand) : '';
+  const operator = settings?.comparison?.operator || operators.EQUALS;
+  const caseInsensitive = Boolean(settings?.comparison?.caseInsensitive);
 
-export default () => {
-  return (
-    <ExtensionView
-      getInitialValues={({ initInfo }) => ({
-        ...getInitialValues(initInfo)
-      })}
-      getSettings={({ values }) => ({ ...getSettings(values) })}
-      validate={(values) => ({ ...validate(values) })}
-      render={() => <Fields />}
-    />
-  );
+  return {
+    leftOperand,
+    rightOperand,
+    operator,
+    caseInsensitive
+  };
 };
