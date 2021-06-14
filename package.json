@@ -1,6 +1,6 @@
 {
   "name": "@adobe/reactor-extension-core-edge",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Adobe Experience Platform Launch Server Side that provides default condition, action and data element types available to all Launch properties.",
   "author": {
     "name": "Adobe",
