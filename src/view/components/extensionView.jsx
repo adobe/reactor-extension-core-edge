@@ -13,14 +13,39 @@ governing permissions and limitations under the License.
 /* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/require-default-props */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { View } from '@adobe/react-spectrum';
 import PropTypes from 'prop-types';
 import ErrorBoundary from './errorBoundary';
+import { updateFetchSettings } from '../utils/fetch';
 // import DisplayFormState from './displayFormState';
 
+const generateNewKey = (() => {
+  let k = 0;
+
+  return () => {
+    k += 1;
+    return k;
+  };
+})();
+
+const forceUpdate = (() => {
+  let generateNewKeyNextTime = false;
+
+  return (setKey) => {
+    if (generateNewKeyNextTime) {
+      setKey(generateNewKey());
+    } else {
+      generateNewKeyNextTime = true;
+    }
+  };
+})();
+
 const ExtensionView = ({ getInitialValues, getSettings, validate, render }) => {
+  const [isInitialized, setIsInitialized] = useState(false);
+  const [key, setKey] = useState(generateNewKey());
+
   const methods = useForm({
     mode: 'onTouched',
     shouldUnregister: false,
@@ -43,7 +68,18 @@ const ExtensionView = ({ getInitialValues, getSettings, validate, render }) => {
           });
         });
 
+        updateFetchSettings({
+          imsOrgId: initInfo.company.orgId,
+          token: initInfo.tokens.imsAccess,
+          propertyId: initInfo.propertySettings.id
+        });
+
         methods.clearErrors();
+        setIsInitialized(true);
+
+        // We want to rerender the component on every
+        // init call after the initial one.
+        forceUpdate(setKey);
       },
 
       getSettings: () =>
@@ -57,8 +93,8 @@ const ExtensionView = ({ getInitialValues, getSettings, validate, render }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <View margin="size-200">
+  return isInitialized ? (
+    <View margin="size-200" key={key}>
       <ErrorBoundary>
         <FormProvider
           // eslint-disable-next-line react/jsx-props-no-spreading
@@ -69,7 +105,7 @@ const ExtensionView = ({ getInitialValues, getSettings, validate, render }) => {
         </FormProvider>
       </ErrorBoundary>
     </View>
-  );
+  ) : null;
 };
 
 ExtensionView.propTypes = {

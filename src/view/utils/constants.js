@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Adobe. All rights reserved.
+Copyright 2021 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -10,18 +10,6 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import React from 'react';
-import { View } from '@adobe/react-spectrum';
-import WrappedTextField from '../../components/wrappedTextField';
-
-export default () => (
-  <View minWidth="size-3000" maxWidth="size-6000">
-    <WrappedTextField
-      width="100%"
-      name="path"
-      label="Path"
-      isRequired
-      necessityIndicator="label"
-    />
-  </View>
-);
+export const API_PRODUCTION_URL = 'https://reactor.adobe.io';
+export const API_STAGE_URL = 'https://reactor-dev.adobe.io';
+export const CLIENT_ID = 'Activation-DTM';

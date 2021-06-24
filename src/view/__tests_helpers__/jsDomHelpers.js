@@ -10,20 +10,39 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { fireEvent, screen } from '@testing-library/react';
+import { fireEvent, screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 
 export const changePickerValue = async (select, newValue) => {
-  let span;
-
   await act(async () => {
-    fireEvent.click(select);
-    span = await screen.findByText(newValue, {
-      selector: 'span[class^="_spectrum-Menu"]'
-    });
-    fireEvent.click(span);
+    await userEvent.click(select);
   });
+
+  const listbox = await screen.findByRole('listbox');
+  const items = await within(listbox).findAllByRole('option');
+
+  const option = items.filter((i) => i.textContent === newValue)[0];
+
+  userEvent.click(option);
+};
+
+export const findComboBoxOption = async (comboboxInput, optionText) => {
+  await act(async () => {
+    await userEvent.type(comboboxInput, optionText);
+  });
+
+  const listbox = await screen.findByRole('listbox');
+  const items = within(listbox)
+    .getAllByRole('option')
+    .filter((o) => o.textContent === optionText);
+
+  return items[0];
+};
+
+export const changeComboBoxValue = async (comboboxInput, newValue) => {
+  const option = await findComboBoxOption(comboboxInput, newValue);
+  userEvent.click(option);
 };
 
 export const inputOnChange = (input, value) =>

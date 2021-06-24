@@ -1,14 +1,14 @@
-/***************************************************************************************
- * Copyright 2019 Adobe. All rights reserved.
- * This file is licensed to you under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance wtesth the License. You may obtain a copy
- * of the License at http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in wrtesting, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
- * OF ANY KIND, etesther express or implied. See the License for the specific language
- * governing permissions and limtestations under the License.
- ****************************************************************************************/
+/*
+Copyright 2021 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
 
 'use strict';
 
@@ -33,14 +33,10 @@ describe('custom code action delegate', () => {
       getSettings: () => settings
     };
 
-    spyOn(settings, 'source').and.callThrough();
+    jest.spyOn(settings, 'source');
     actionDelegate({ arc, utils });
 
-    expect(settings.source.calls.first()).toEqual({
-      object: expect.any(Object),
-      args: [arc, utils],
-      returnValue: true
-    });
+    expect(settings.source.mock.calls[0]).toEqual([arc, utils]);
   });
 
   test('should save the user-defined function result to the correct key', () => {

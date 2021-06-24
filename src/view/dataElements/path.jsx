@@ -13,10 +13,10 @@ governing permissions and limitations under the License.
 import React from 'react';
 import ExtensionView from '../components/extensionView';
 
-import Fields from './pathComponents/fields';
-import getInitialValues from './pathComponents/getInitValues';
-import getSettings from './pathComponents/getSettings';
-import validate from './pathComponents/validate';
+import Fields from './path/components/fields';
+import getInitialValues from './path/form/getInitValues';
+import getSettings from './path/form/getSettings';
+import validate from './path/form/validate';
 
 export default () => {
   return (

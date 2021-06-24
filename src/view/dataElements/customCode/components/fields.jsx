@@ -13,7 +13,7 @@ governing permissions and limitations under the License.
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Text, View } from '@adobe/react-spectrum';
-import EditorButton from '../../components/editorButton';
+import EditorButton from '../../../components/editorButton';
 
 export default () => {
   const {

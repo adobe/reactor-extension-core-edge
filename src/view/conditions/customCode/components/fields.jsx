@@ -21,7 +21,7 @@ import {
   View
 } from '@adobe/react-spectrum';
 import Info from '@spectrum-icons/workflow/Info';
-import EditorButton from '../../components/editorButton';
+import EditorButton from '../../../components/editorButton';
 
 export default () => {
   const {

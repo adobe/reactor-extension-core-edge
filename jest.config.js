@@ -18,6 +18,7 @@ module.exports = {
     {
       displayName: 'test views',
       setupFilesAfterEnv: ['./src/view/jest.setup.js'],
+      testEnvironment: 'jsdom',
       moduleNameMapper: {
         '\\.(css|styl)$': '<rootDir>/src/view/__tests_helpers__/styleMock.js'
       },

@@ -16,7 +16,7 @@ import renderView from '../../__tests_helpers__/renderView';
 import ValueComparison from '../valueComparison';
 import createExtensionBridge from '../../__tests_helpers__/createExtensionBridge';
 
-import metaByOperator from '../valueComparisonComponents/metaByOperator';
+import metaByOperator from '../valueComparison/helpers/metaByOperator';
 import {
   inputOnChange,
   changePickerValue
@@ -193,17 +193,21 @@ describe('value comparison condition view', () => {
 
           const { leftOperandTextfield, operatorSelect } = getFromFields();
 
-          inputOnChange(leftOperandTextfield, '{{foo}}');
-          await changePickerValue(
-            operatorSelect,
-            metaByOperator[operator].label
-          );
+          await act(async () => {
+            inputOnChange(leftOperandTextfield, '{{foo}}');
+            await changePickerValue(
+              operatorSelect,
+              metaByOperator[operator].label
+            );
+          });
 
           const { rightOperandTextfield, caseInsensitiveCheckbox } =
             getFromFields();
 
-          inputOnChange(rightOperandTextfield, 'bar');
-          fireEvent.click(caseInsensitiveCheckbox);
+          await act(async () => {
+            inputOnChange(rightOperandTextfield, 'bar');
+            fireEvent.click(caseInsensitiveCheckbox);
+          });
 
           expect(extensionBridge.getSettings()).toEqual({
             leftOperand: '{{foo}}',
