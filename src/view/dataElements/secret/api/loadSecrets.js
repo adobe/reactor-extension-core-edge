@@ -20,6 +20,10 @@ export default () => {
     'secrets?page[size]=999&page[number]=1&filter[environment_id]=NOT%20null';
 
   return fetch(url).catch((e) => {
-    throw new Error(`${e.message} when loading ${url}`);
+    if (e instanceof TypeError) {
+      throw new Error(`${e.message} when loading ${url}`);
+    } else {
+      throw e;
+    }
   });
 };
