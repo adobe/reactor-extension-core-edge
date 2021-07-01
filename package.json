@@ -25,7 +25,8 @@
     "format": "pretty-quick",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
-    "update": "rm -rf node_modules package-lock.json && npm i"
+    "update": "rm -rf node_modules package-lock.json && npm i",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "*.js": [
