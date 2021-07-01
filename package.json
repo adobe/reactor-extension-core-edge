@@ -27,12 +27,6 @@
     "test:watch": "jest --watch",
     "update": "rm -rf node_modules package-lock.json && npm i"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged && lint-staged",
-      "pre-push": "npm test"
-    }
-  },
   "lint-staged": {
     "*.js": [
       "eslint --cache --fix"
@@ -84,8 +78,8 @@
     "html-webpack-plugin": "^5.3.1",
     "husky": "^6.0.0",
     "jest": "^27.0.4",
-    "jest-runner-eslint": "^0.10.0",
     "jest-environment-jsdom": "^27.0.3",
+    "jest-runner-eslint": "^0.10.0",
     "lint-staged": "^11.0.0",
     "prettier": "^2.3.1",
     "pretty-quick": "^3.1.0",
