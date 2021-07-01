@@ -31,7 +31,7 @@ describe('secret data element delegate', function () {
         utils: {
           getSettings: () => settings,
           getBuildInfo: () => ({ environment: 'development' }),
-          getRuleComponent: () => ({})
+          getComponent: () => ({})
         }
       })
     ).toBe('ABC');
@@ -48,7 +48,7 @@ describe('secret data element delegate', function () {
         utils: {
           getSettings: () => settings,
           getBuildInfo: () => ({ environment: 'development' }),
-          getRuleComponent: () => ({ name: 'DE1' })
+          getComponent: () => ({ name: 'DE1' })
         }
       });
     }).toThrow(
@@ -69,7 +69,7 @@ describe('secret data element delegate', function () {
         utils: {
           getSettings: () => settings,
           getBuildInfo: () => ({ environment: 'development' }),
-          getRuleComponent: () => ({ name: 'DE1' })
+          getComponent: () => ({ name: 'DE1' })
         }
       });
     }).toThrow(

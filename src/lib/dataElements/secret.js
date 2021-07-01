@@ -12,12 +12,10 @@ governing permissions and limitations under the License.
 
 'use strict';
 
-module.exports = ({
-  utils: { getBuildInfo, getSettings, getRuleComponent }
-}) => {
+module.exports = ({ utils: { getBuildInfo, getSettings, getComponent } }) => {
   const { environment } = getBuildInfo();
   const { secrets = {} } = getSettings();
-  const { name: dataElementName } = getRuleComponent();
+  const { name: dataElementName } = getComponent();
 
   if (secrets[environment]) {
     const { id, name } = secrets[environment];
