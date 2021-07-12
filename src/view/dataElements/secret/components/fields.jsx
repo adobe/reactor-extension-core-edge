@@ -14,16 +14,18 @@ import React, { useEffect, useState } from 'react';
 import { Flex } from '@adobe/react-spectrum';
 import ProgressCircle from '../../../components/progressCircle';
 import ErrorMessage from '../../../components/errorMessage';
-import loadSecrets from '../helpers/loadSecrets';
+import groupSecretsByStage from '../helpers/groupSecretsByStage';
+import loadSecrets from '../api/loadSecrets';
 import SecretsSection from './secretsSection';
 
-export default () => {
+export default ({ renderedCycle }) => {
   const [showProgressCircle, setShowProgressCircle] = useState(true);
   const [error, setError] = useState(false);
   const [secrets, setSecrets] = useState({});
 
   useEffect(() => {
     loadSecrets()
+      .then(groupSecretsByStage)
       .then((loadedSecrets) => {
         setSecrets(loadedSecrets);
         setShowProgressCircle(false);
@@ -31,7 +33,7 @@ export default () => {
       .catch((e) => {
         setError(e);
       });
-  }, []);
+  }, [renderedCycle]);
 
   return (
     <>

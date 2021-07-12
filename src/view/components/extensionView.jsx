@@ -18,19 +18,14 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { View } from '@adobe/react-spectrum';
 import PropTypes from 'prop-types';
 import ErrorBoundary from './errorBoundary';
+import RenderCycleContext from './renderCycleContext';
 import { updateFetchSettings } from '../utils/fetch';
+import getUniqueKeyGenerator from '../utils/getUniqueKeyGenerator';
 // import DisplayFormState from './displayFormState';
 
-const generateNewKey = (() => {
-  let k = 0;
+const generateNewKey = getUniqueKeyGenerator('cycle');
 
-  return () => {
-    k += 1;
-    return k;
-  };
-})();
-
-const forceUpdate = (() => {
+const generateNewRenderCycle = (() => {
   let generateNewKeyNextTime = false;
 
   return (setKey) => {
@@ -42,9 +37,11 @@ const forceUpdate = (() => {
   };
 })();
 
+const initialKey = generateNewKey();
+
 const ExtensionView = ({ getInitialValues, getSettings, validate, render }) => {
   const [isInitialized, setIsInitialized] = useState(false);
-  const [key, setKey] = useState(generateNewKey());
+  const [renderedCycle, setRenderedCycle] = useState(initialKey);
 
   const methods = useForm({
     mode: 'onTouched',
@@ -57,16 +54,11 @@ const ExtensionView = ({ getInitialValues, getSettings, validate, render }) => {
 
     window.extensionBridge.register({
       init: (_initInfo = {}) => {
+        setIsInitialized(false);
+
         initInfo = _initInfo;
 
-        const initialValues = getInitialValues({ initInfo: _initInfo });
-
-        Object.keys(initialValues || {}).forEach((k) => {
-          methods.setValue(k, initialValues[k], {
-            shouldValidate: false,
-            shouldDirty: false
-          });
-        });
+        methods.reset(getInitialValues({ initInfo }));
 
         updateFetchSettings({
           imsOrgId: initInfo.company.orgId,
@@ -74,12 +66,11 @@ const ExtensionView = ({ getInitialValues, getSettings, validate, render }) => {
           propertyId: initInfo.propertySettings.id
         });
 
-        methods.clearErrors();
-        setIsInitialized(true);
-
         // We want to rerender the component on every
         // init call after the initial one.
-        forceUpdate(setKey);
+        generateNewRenderCycle(setRenderedCycle);
+
+        setIsInitialized(true);
       },
 
       getSettings: () =>
@@ -94,17 +85,19 @@ const ExtensionView = ({ getInitialValues, getSettings, validate, render }) => {
   }, []);
 
   return isInitialized ? (
-    <View margin="size-200" key={key}>
-      <ErrorBoundary>
-        <FormProvider
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          {...methods}
-        >
-          <form>{render()}</form>
-          {/* <DisplayFormState /> */}
-        </FormProvider>
-      </ErrorBoundary>
-    </View>
+    <RenderCycleContext.Provider value={renderedCycle}>
+      <View margin="size-200" key={renderedCycle}>
+        <ErrorBoundary>
+          <FormProvider
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...methods}
+          >
+            <form>{render()}</form>
+            {/* <DisplayFormState /> */}
+          </FormProvider>
+        </ErrorBoundary>
+      </View>
+    </RenderCycleContext.Provider>
   ) : null;
 };
 
