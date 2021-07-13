@@ -11,8 +11,7 @@ governing permissions and limitations under the License.
 */
 
 import React from 'react';
-import { Item, View } from '@adobe/react-spectrum';
-import { ComboBox } from '@react-spectrum/combobox';
+import { Item, View, ComboBox } from '@adobe/react-spectrum';
 import { useFormContext } from 'react-hook-form';
 
 const isMissingFromSecrets = (id, secrets) => {
