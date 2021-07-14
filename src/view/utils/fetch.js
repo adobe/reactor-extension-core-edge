@@ -25,11 +25,12 @@ export default async (url, options = {}) => {
   }
 
   const apiUrl =
-    getEnvironment(fetchSettings.token) === 'staging'
+    fetchSettings.apiEndpoint ||
+    (getEnvironment(fetchSettings.token) === 'staging'
       ? API_STAGE_URL
-      : API_PRODUCTION_URL;
+      : API_PRODUCTION_URL);
 
-  url = url.startsWith('/') ? `${apiUrl}${url}` : url;
+  url = url.match(/^(?:https?:)?\/\//) ? url : `${apiUrl}${url}`;
 
   const response = await fetch(url, {
     method: 'GET',

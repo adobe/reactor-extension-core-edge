@@ -61,6 +61,7 @@ const ExtensionView = ({ getInitialValues, getSettings, validate, render }) => {
         methods.reset(getInitialValues({ initInfo }));
 
         updateFetchSettings({
+          apiEndpoint: initInfo.apiEndpoints?.reactor,
           imsOrgId: initInfo.company.orgId,
           token: initInfo.tokens.imsAccess,
           propertyId: initInfo.propertySettings.id
