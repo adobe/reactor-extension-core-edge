@@ -13,7 +13,7 @@ governing permissions and limitations under the License.
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { Text, Flex } from '@adobe/react-spectrum';
+import { Flex } from '@adobe/react-spectrum';
 
 const showError = (obj, path) => {
   if (obj[path]) {
@@ -51,20 +51,16 @@ export default ({ children, width }) => {
   const showErrorResult = showError(errors, fieldName);
 
   return (
-    <Flex direction="row" width={width}>
-      <Flex direction="column" width={width}>
-        {React.cloneElement(children[0], {
-          validationState: showErrorResult ? 'invalid' : ''
-        })}
+    <Flex
+      direction="row"
+      width={width}
+      marginBottom={showErrorResult ? 'size-0' : 'size-150'}
+    >
+      {React.cloneElement(firstChild, {
+        validationState: showErrorResult ? 'invalid' : '',
+        errorMessage: showErrorResult
+      })}
 
-        <div className="error">
-          {showErrorResult ? (
-            <Text>{showErrorResult}</Text>
-          ) : (
-            <Text>&nbsp;</Text>
-          )}
-        </div>
-      </Flex>
       {restChildren}
     </Flex>
   );

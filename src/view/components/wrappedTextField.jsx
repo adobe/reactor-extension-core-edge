@@ -85,9 +85,8 @@ export default ({
           {supportDataElement && (
             <ActionButton
               aria-label="Open data element selector"
-              alignSelf="flex-end"
               marginStart="size-65"
-              marginBottom="size-225"
+              marginTop="size-300"
               onPress={openDataElementSelector(
                 supportDataElement,
                 name,
