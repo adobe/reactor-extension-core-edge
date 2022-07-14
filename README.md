@@ -1,10 +1,10 @@
-# Core extension for Adobe Experience Platform Launch Server Side
+# Core extension for Adobe Experience Platform event forwarding
 
 [![Build Status](https://img.shields.io/github/workflow/status/adobe/reactor-extension-core-edge/ci?style=flat)](https://github.com/adobe/reactor-extension-core-edge/actions)
 [![Coverage Status](https://coveralls.io/repos/github/adobe/reactor-extension-core-edge/badge.svg?branch=main)](https://coveralls.io/github/adobe/reactor-extension-core-edge?branch=main)
 [![npm (scoped with tag)](https://img.shields.io/npm/v/@adobe/reactor-extension-core-edge.svg?style=flat)](https://www.npmjs.com/package/@adobe/reactor-extension-core-edge)
 
-Core extension for Launch Server Side. It provides default condition, and data element types available to Launch properties.
+Core extension for Adobe Experience Platform event forwarding. It provides default condition, and data element types to event forwarding properties.
 
 ## Get started
 
