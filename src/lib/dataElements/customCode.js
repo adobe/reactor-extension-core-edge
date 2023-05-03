@@ -10,8 +10,6 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-'use strict';
-
 /**
  * Custom code data element. This executes data element code provided by the user.
  * @param {Object} context Action settings.

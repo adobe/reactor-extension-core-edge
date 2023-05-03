@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Adobe. All rights reserved.
+Copyright 2022 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -10,19 +10,22 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-'use strict';
+import path from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const extension = require('./extension');
-const camelCase = require('camelcase');
-const capitalize = require('capitalize');
-const createEntryFile = require('./createEntryFile');
+import extension from './extension.json' assert { type: 'json' };
+import camelCase from 'camelcase';
+import capitalize from 'capitalize';
+import createEntryFile from './createEntryFile.mjs';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const entries = {};
 const plugins = [];
 
-module.exports = (env) => {
+export default (env, argv) => {
   // Each view becomes its own "app". These are automatically generated based on naming convention.
   ['condition', 'dataElement', 'action'].forEach((type) => {
     const typePluralized = type + 's';
@@ -52,6 +55,13 @@ module.exports = (env) => {
 
         plugins.push(
           new HtmlWebpackPlugin({
+            reactDevHook:
+              argv.mode === 'development'
+                ? '<script> if (window.parent !== window) {' +
+                  ' window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = ' +
+                  'window.parent.__REACT_DEVTOOLS_GLOBAL_HOOK__; ' +
+                  '} </script>'
+                : '',
             title: itemDescriptor.displayName || 'Configuration',
             filename: `${chunkName}.html`,
             template: 'src/view/template.html',
@@ -81,6 +91,7 @@ module.exports = (env) => {
         }
       }
     },
+    devtool: argv.mode === 'development' ? 'source-map' : false,
     entry: entries,
     plugins: plugins,
     output: {

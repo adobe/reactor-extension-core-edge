@@ -9,9 +9,9 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { fireEvent, screen } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { screen } from '@testing-library/react';
 import renderView from '../../__tests_helpers__/renderView';
+import { click } from '../../__tests_helpers__/jsDomHelpers';
 
 import CustomCode from '../customCode';
 import createExtensionBridge from '../../__tests_helpers__/createExtensionBridge';
@@ -35,37 +35,29 @@ const getFromFields = () => ({
 });
 
 describe('custom code data element view', () => {
-  beforeEach(() => {
-    renderView(CustomCode);
-  });
-
   test('sets errors if required values are not provided', async () => {
-    await act(async () => {
-      extensionBridge.init();
-    });
+    renderView(CustomCode);
 
-    await act(async () => {
-      extensionBridge.validate();
-    });
+    extensionBridge.init();
+
+    await extensionBridge.validate();
 
     const { openEditorButtonErrorMessage } = getFromFields();
     expect(openEditorButtonErrorMessage).not.toBeNull();
   });
 
   test('allows user to provide custom code', async () => {
-    await act(async () => {
-      extensionBridge.init({
-        settings: {
-          source: 'foo'
-        }
-      });
+    renderView(CustomCode);
+
+    extensionBridge.init({
+      settings: {
+        source: 'foo'
+      }
     });
 
     const { openEditorButton } = getFromFields();
 
-    await act(async () => {
-      fireEvent.click(openEditorButton);
-    });
+    await click(openEditorButton);
 
     expect(extensionBridge.getSettings()).toEqual({
       source: 'foo + modified code'

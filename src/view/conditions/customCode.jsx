@@ -18,7 +18,7 @@ import getInitialValues from './customCode/form/getInitValues';
 import getSettings from './customCode/form/getSettings';
 import validate from './customCode/form/validate';
 
-export default () => {
+export default function CustomCodeView() {
   return (
     <ExtensionView
       getInitialValues={({ initInfo }) => ({
@@ -29,4 +29,4 @@ export default () => {
       render={() => <Fields />}
     />
   );
-};
+}

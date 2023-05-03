@@ -11,8 +11,9 @@ governing permissions and limitations under the License.
 */
 
 import React from 'react';
-import { Item, View, ComboBox } from '@adobe/react-spectrum';
+import { Item, View } from '@adobe/react-spectrum';
 import { useFormContext } from 'react-hook-form';
+import SecretComboBox from '../../../components/secretComboBox';
 
 const isMissingFromSecrets = (id, secrets) => {
   return id && secrets.filter((s) => s.id === id).length === 0;
@@ -28,7 +29,7 @@ const addDeletedSecretsIfDoesNotExist = (secrets, name, id) => {
   }
 };
 
-export default ({ formKeyPrefix, label, secrets }) => {
+export default function SecretSection({ formKeyPrefix, label, secrets }) {
   const { setValue, watch } = useFormContext();
   const secretId = watch(`${formKeyPrefix}.id`);
   const secretName = watch(`${formKeyPrefix}.name`);
@@ -37,10 +38,9 @@ export default ({ formKeyPrefix, label, secrets }) => {
 
   return (
     <View minWidth="size-3000" maxWidth="size-6000">
-      <ComboBox
+      <SecretComboBox
         width="100%"
         label={label}
-        placeholder="Please select..."
         defaultItems={secrets}
         defaultSelectedKey={secretId}
         disabledKeys={secrets.filter((s) => s.disabled).map((s) => s.id)}
@@ -52,7 +52,7 @@ export default ({ formKeyPrefix, label, secrets }) => {
         }}
       >
         {(item) => <Item key={item.id}>{item.label}</Item>}
-      </ComboBox>
+      </SecretComboBox>
     </View>
   );
-};
+}

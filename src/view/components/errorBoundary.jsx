@@ -24,7 +24,7 @@ export default class ErrorBoundary extends Component {
     return { error };
   }
 
-  componentDidCatch(/*error, info*/) {
+  componentDidCatch(/* error, info */) {
     // You can also log the error to an error reporting service
     // console.error(error, info);
   }

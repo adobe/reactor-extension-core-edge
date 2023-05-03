@@ -15,7 +15,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { Text, View } from '@adobe/react-spectrum';
 import EditorButton from '../../../components/editorButton';
 
-export default () => {
+export default function CustomCodeFields() {
   const {
     control,
     formState: { errors },
@@ -51,4 +51,4 @@ export default () => {
       )}
     />
   );
-};
+}

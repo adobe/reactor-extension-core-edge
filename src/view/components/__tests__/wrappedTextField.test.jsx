@@ -11,7 +11,6 @@ governing permissions and limitations under the License.
 
 import React from 'react';
 import { screen } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 import renderView from '../../__tests_helpers__/renderView';
 import WrappedTextField from '../wrappedTextField';
@@ -31,7 +30,7 @@ afterEach(() => {
 });
 
 describe('wrapped text field', () => {
-  beforeEach(() => {
+  test('data element button adds a data element to the associated field', async () => {
     renderView(() => (
       <ExtensionView
         getInitialValues={() => ({ test: '' })}
@@ -42,19 +41,13 @@ describe('wrapped text field', () => {
         )}
       />
     ));
-  });
 
-  test('data element button adds a data element to the associated field', async () => {
-    act(() => {
-      extensionBridge.init();
-    });
+    extensionBridge.init();
 
     const input = screen.getByRole('textbox');
     const dataElementButton = screen.getByRole('button');
 
-    await act(async () => {
-      await userEvent.click(dataElementButton);
-    });
+    await userEvent.click(dataElementButton);
 
     expect(input).toHaveValue('%data element name%');
   });

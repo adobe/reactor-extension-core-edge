@@ -9,10 +9,9 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { fireEvent, screen } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { screen } from '@testing-library/react';
 import renderView from '../../__tests_helpers__/renderView';
-import { inputOnChange } from '../../__tests_helpers__/jsDomHelpers';
+import { changeInputValue, click } from '../../__tests_helpers__/jsDomHelpers';
 
 import CustomCode from '../customCode';
 import createExtensionBridge from '../../__tests_helpers__/createExtensionBridge';
@@ -37,31 +36,25 @@ const getFromFields = () => ({
 });
 
 describe('custom code action view', () => {
-  beforeEach(() => {
-    renderView(CustomCode);
-  });
-
   test('sets form values from settings', async () => {
-    await act(async () => {
-      extensionBridge.init({
-        settings: {
-          keyname: 'key',
-          source: 'bar'
-        }
-      });
+    renderView(CustomCode);
+
+    extensionBridge.init({
+      settings: {
+        keyname: 'key',
+        source: 'bar'
+      }
     });
 
     let { keyNameTextfield } = getFromFields();
 
     expect(keyNameTextfield.value).toBe('');
 
-    await act(async () => {
-      extensionBridge.init({
-        settings: {
-          keyName: 'name',
-          source: 'bar'
-        }
-      });
+    extensionBridge.init({
+      settings: {
+        keyName: 'name',
+        source: 'bar'
+      }
     });
 
     ({ keyNameTextfield } = getFromFields());
@@ -70,12 +63,12 @@ describe('custom code action view', () => {
   });
 
   test('sets settings from form values', async () => {
-    await act(async () => {
-      extensionBridge.init();
-    });
+    renderView(CustomCode);
+
+    extensionBridge.init();
 
     const { keyNameTextfield } = getFromFields();
-    inputOnChange(keyNameTextfield, 'name');
+    await changeInputValue(keyNameTextfield, 'name');
 
     expect(extensionBridge.getSettings()).toEqual({
       keyName: 'name',
@@ -84,13 +77,11 @@ describe('custom code action view', () => {
   });
 
   test('sets errors if required values are not provided', async () => {
-    await act(async () => {
-      extensionBridge.init();
-    });
+    renderView(CustomCode);
 
-    await act(async () => {
-      extensionBridge.validate();
-    });
+    extensionBridge.init();
+
+    await extensionBridge.validate();
 
     const { openEditorButtonErrorMessage, keyNameTextfield } = getFromFields();
 
@@ -99,20 +90,17 @@ describe('custom code action view', () => {
   });
 
   test('allows user to provide custom code', async () => {
-    await act(async () => {
-      extensionBridge.init({
-        settings: {
-          keyName: 'name',
-          source: 'foo'
-        }
-      });
+    renderView(CustomCode);
+
+    extensionBridge.init({
+      settings: {
+        keyName: 'name',
+        source: 'foo'
+      }
     });
 
     const { openEditorButton } = getFromFields();
-
-    await act(async () => {
-      fireEvent.click(openEditorButton);
-    });
+    await click(openEditorButton);
 
     expect(extensionBridge.getSettings()).toEqual({
       keyName: 'name',

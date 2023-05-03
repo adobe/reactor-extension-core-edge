@@ -1,15 +1,22 @@
 {
   "env": {
     "es6": true,
-    "browser": true,
     "jest": true
+  },
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "requireConfigFile": false,
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "babelOptions": {
+      "plugins": ["@babel/plugin-syntax-import-assertions"]
+    }
   },
   "extends": ["plugin:prettier/recommended"],
   "plugins": ["react-hooks", "header"],
   "rules": {
     "prettier/prettier": "error",
     "camelcase": [2, { "properties": "always" }],
-    "indent": [2, 2, { "SwitchCase": 1 }], // 2 spaces indentation
     "semi": [2, "always"],
     "keyword-spacing": [2],
     "space-before-function-paren": [

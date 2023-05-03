@@ -18,7 +18,7 @@ import groupSecretsByStage from '../helpers/groupSecretsByStage';
 import loadSecrets from '../api/loadSecrets';
 import SecretsSection from './secretsSection';
 
-export default ({ renderedCycle }) => {
+export default function SecretFields({ renderedCycle }) {
   const [showProgressCircle, setShowProgressCircle] = useState(true);
   const [error, setError] = useState(false);
   const [secrets, setSecrets] = useState({});
@@ -60,4 +60,4 @@ export default ({ renderedCycle }) => {
       )}
     </>
   );
-};
+}

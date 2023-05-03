@@ -14,14 +14,16 @@ import React from 'react';
 import { View } from '@adobe/react-spectrum';
 import WrappedTextField from '../../../components/wrappedTextField';
 
-export default () => (
-  <View minWidth="size-3000" maxWidth="size-6000">
-    <WrappedTextField
-      width="100%"
-      name="path"
-      label="Path"
-      isRequired
-      necessityIndicator="label"
-    />
-  </View>
-);
+export default function PathFields() {
+  return (
+    <View minWidth="size-3000" maxWidth="size-6000">
+      <WrappedTextField
+        width="100%"
+        name="path"
+        label="Path"
+        isRequired
+        necessityIndicator="label"
+      />
+    </View>
+  );
+}

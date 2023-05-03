@@ -13,7 +13,7 @@ governing permissions and limitations under the License.
 import React from 'react';
 import { ProgressCircle, Flex, Heading } from '@adobe/react-spectrum';
 
-export default () => {
+export default function ProgressCircleView() {
   return (
     <Flex
       gap="size-200"
@@ -26,4 +26,4 @@ export default () => {
       <Heading level="3">Loading...</Heading>
     </Flex>
   );
-};
+}

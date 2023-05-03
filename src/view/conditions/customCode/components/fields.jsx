@@ -23,7 +23,7 @@ import {
 import Info from '@spectrum-icons/workflow/Info';
 import EditorButton from '../../../components/editorButton';
 
-export default () => {
+export default function CustomCodeFields() {
   const {
     control,
     formState: { errors },
@@ -73,4 +73,4 @@ export default () => {
       </TooltipTrigger>
     </Flex>
   );
-};
+}

@@ -32,7 +32,7 @@ const operatorOptions = Object.keys(metaByOperator).map((operator) => ({
   name: metaByOperator[operator].label
 }));
 
-const NoTypeConversionReminder = ({ operator, value }) => {
+function NoTypeConversionReminder({ operator, value }) {
   const sketchyStrings = ['true', 'false', 'null', 'undefined'];
 
   return (operator === operators.EQUALS ||
@@ -47,15 +47,15 @@ const NoTypeConversionReminder = ({ operator, value }) => {
       </Flex>
     </Well>
   ) : null;
-};
+}
 
-const RightOperandFields = ({
+function RightOperandFields({
   setValue,
   watch,
   operator,
   caseInsensitive,
   rightOperand
-}) => {
+}) {
   if (operator && metaByOperator[operator].supportsRightOperand) {
     return operator === operators.MATCHES_REGEX ||
       operator === operators.DOES_NOT_MATCH_REGEX ? (
@@ -96,9 +96,9 @@ const RightOperandFields = ({
   }
 
   return null;
-};
+}
 
-export default () => {
+export default function ValueComparisonFields() {
   const { control, watch, setValue } = useFormContext();
 
   const [operator, rightOperand, caseInsensitive] = watch([
@@ -165,4 +165,4 @@ export default () => {
       />
     </>
   );
-};
+}

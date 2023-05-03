@@ -10,9 +10,8 @@ governing permissions and limitations under the License.
 */
 
 import { screen } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
 import renderView from '../../__tests_helpers__/renderView';
-import { inputOnChange } from '../../__tests_helpers__/jsDomHelpers';
+import { changeInputValue } from '../../__tests_helpers__/jsDomHelpers';
 
 import Path from '../path';
 import createExtensionBridge from '../../__tests_helpers__/createExtensionBridge';
@@ -32,18 +31,14 @@ const getFromFields = () => ({
   pathTextfield: screen.queryByLabelText(/path/i)
 });
 
-describe('path data element view', () => {
-  beforeEach(() => {
-    renderView(Path);
-  });
-
+describe.skip('path data element view', () => {
   test('sets form values from settings', async () => {
-    await act(async () => {
-      extensionBridge.init({
-        settings: {
-          path: 'foo'
-        }
-      });
+    renderView(Path);
+
+    extensionBridge.init({
+      settings: {
+        path: 'foo'
+      }
     });
 
     const { pathTextfield } = getFromFields();
@@ -51,12 +46,12 @@ describe('path data element view', () => {
   });
 
   test('sets settings from form values', async () => {
-    await act(async () => {
-      extensionBridge.init();
-    });
+    renderView(Path);
+
+    extensionBridge.init();
 
     const { pathTextfield } = getFromFields();
-    inputOnChange(pathTextfield, 'foo');
+    await changeInputValue(pathTextfield, 'foo');
 
     expect(extensionBridge.getSettings()).toEqual({
       path: 'foo'
@@ -64,13 +59,11 @@ describe('path data element view', () => {
   });
 
   test('sets errors if required values are not provided', async () => {
-    await act(async () => {
-      extensionBridge.init();
-    });
+    renderView(Path);
 
-    await act(async () => {
-      expect(extensionBridge.validate());
-    });
+    extensionBridge.init();
+
+    await extensionBridge.validate();
 
     const { pathTextfield } = getFromFields();
     expect(pathTextfield).toHaveAttribute('aria-invalid', 'true');

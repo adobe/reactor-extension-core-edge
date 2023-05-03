@@ -19,7 +19,7 @@ import getInitialValues from './secret/form/getInitValues';
 import getSettings from './secret/form/getSettings';
 import validate from './secret/form/validate';
 
-export default () => {
+export default function SecretsView() {
   return (
     <ExtensionView
       getInitialValues={({ initInfo }) => ({
@@ -34,4 +34,4 @@ export default () => {
       )}
     />
   );
-};
+}

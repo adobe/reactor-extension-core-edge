@@ -10,7 +10,6 @@ governing permissions and limitations under the License.
 */
 
 import { fireEvent, screen } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
 import renderView from '../../__tests_helpers__/renderView';
 
 import ValueComparison from '../valueComparison';
@@ -18,7 +17,7 @@ import createExtensionBridge from '../../__tests_helpers__/createExtensionBridge
 
 import metaByOperator from '../valueComparison/helpers/metaByOperator';
 import {
-  inputOnChange,
+  changeInputValue,
   changePickerValue
 } from '../../__tests_helpers__/jsDomHelpers';
 
@@ -44,27 +43,23 @@ const getFromFields = () => ({
 });
 
 describe('value comparison condition view', () => {
-  beforeEach(() => {
-    renderView(ValueComparison);
-  });
-
   describe('equal-based comparisons', () => {
     ['equals', 'doesNotEqual'].forEach((operator) => {
       describe(`when operator is ${operator}`, () => {
         test('sets form values from settings ', async () => {
-          await act(async () => {
-            extensionBridge.init({
-              settings: {
-                leftOperand: '{{foo}}',
-                comparison: {
-                  operator,
-                  caseInsensitive: true
-                },
-                // We're using 0 here because it also tests whether falsy values
-                // are handled appropriately.
-                rightOperand: 0
-              }
-            });
+          renderView(ValueComparison);
+
+          extensionBridge.init({
+            settings: {
+              leftOperand: '{{foo}}',
+              comparison: {
+                operator,
+                caseInsensitive: true
+              },
+              // We're using 0 here because it also tests whether falsy values
+              // are handled appropriately.
+              rightOperand: 0
+            }
           });
 
           const {
@@ -83,27 +78,23 @@ describe('value comparison condition view', () => {
         });
 
         test('sets settings from form values', async () => {
-          await act(async () => {
-            extensionBridge.init();
-          });
+          renderView(ValueComparison);
+
+          extensionBridge.init();
 
           const { leftOperandTextfield, operatorSelect } = getFromFields();
 
-          await act(async () => {
-            inputOnChange(leftOperandTextfield, '{{foo}}');
-            await changePickerValue(
-              operatorSelect,
-              metaByOperator[operator].label
-            );
-          });
+          await changeInputValue(leftOperandTextfield, '{{{{foo}}');
+          await changePickerValue(
+            operatorSelect,
+            metaByOperator[operator].label
+          );
 
           const { rightOperandTextfield, caseInsensitiveCheckbox } =
             getFromFields();
 
-          await act(async () => {
-            inputOnChange(rightOperandTextfield, '123');
-            fireEvent.click(caseInsensitiveCheckbox);
-          });
+          await changeInputValue(rightOperandTextfield, '123');
+          fireEvent.click(caseInsensitiveCheckbox);
 
           expect(extensionBridge.getSettings()).toEqual({
             leftOperand: '{{foo}}',
@@ -116,19 +107,17 @@ describe('value comparison condition view', () => {
         });
 
         test('sets errors if required values are not provided', async () => {
-          await act(async () => {
-            extensionBridge.init({
-              settings: {
-                comparison: {
-                  operator
-                }
+          renderView(ValueComparison);
+
+          extensionBridge.init({
+            settings: {
+              comparison: {
+                operator
               }
-            });
+            }
           });
 
-          await act(async () => {
-            expect(extensionBridge.validate()).resolves.toBe(false);
-          });
+          await extensionBridge.validate();
 
           const { leftOperandTextfield, rightOperandTextfield } =
             getFromFields();
@@ -158,17 +147,17 @@ describe('value comparison condition view', () => {
     ].forEach((operator) => {
       describe(`when operator is ${operator}`, () => {
         test('sets form values from settings ', async () => {
-          await act(async () => {
-            extensionBridge.init({
-              settings: {
-                leftOperand: '{{foo}}',
-                comparison: {
-                  operator,
-                  caseInsensitive: true
-                },
-                rightOperand: 'bar'
-              }
-            });
+          renderView(ValueComparison);
+
+          extensionBridge.init({
+            settings: {
+              leftOperand: '{{foo}}',
+              comparison: {
+                operator,
+                caseInsensitive: true
+              },
+              rightOperand: 'bar'
+            }
           });
 
           const {
@@ -187,27 +176,23 @@ describe('value comparison condition view', () => {
         });
 
         test('sets settings from form values', async () => {
-          await act(async () => {
-            extensionBridge.init();
-          });
+          renderView(ValueComparison);
+
+          extensionBridge.init();
 
           const { leftOperandTextfield, operatorSelect } = getFromFields();
 
-          await act(async () => {
-            inputOnChange(leftOperandTextfield, '{{foo}}');
-            await changePickerValue(
-              operatorSelect,
-              metaByOperator[operator].label
-            );
-          });
+          await changeInputValue(leftOperandTextfield, '{{{{foo}}');
+          await changePickerValue(
+            operatorSelect,
+            metaByOperator[operator].label
+          );
 
           const { rightOperandTextfield, caseInsensitiveCheckbox } =
             getFromFields();
 
-          await act(async () => {
-            inputOnChange(rightOperandTextfield, 'bar');
-            fireEvent.click(caseInsensitiveCheckbox);
-          });
+          await changeInputValue(rightOperandTextfield, 'bar');
+          fireEvent.click(caseInsensitiveCheckbox);
 
           expect(extensionBridge.getSettings()).toEqual({
             leftOperand: '{{foo}}',
@@ -220,19 +205,17 @@ describe('value comparison condition view', () => {
         });
 
         test('sets errors if required values are not provided', async () => {
-          await act(async () => {
-            extensionBridge.init({
-              settings: {
-                comparison: {
-                  operator
-                }
+          renderView(ValueComparison);
+
+          extensionBridge.init({
+            settings: {
+              comparison: {
+                operator
               }
-            });
+            }
           });
 
-          await act(async () => {
-            expect(extensionBridge.validate()).resolves.toBe(false);
-          });
+          await extensionBridge.validate();
 
           const { leftOperandTextfield, rightOperandTextfield } =
             getFromFields();
@@ -253,16 +236,16 @@ describe('value comparison condition view', () => {
     ].forEach((operator) => {
       describe(`when operator is ${operator}`, () => {
         test('sets form values from settings', async () => {
-          await act(async () => {
-            extensionBridge.init({
-              settings: {
-                leftOperand: '{{foo}}',
-                comparison: {
-                  operator
-                },
-                rightOperand: 456
-              }
-            });
+          renderView(ValueComparison);
+
+          extensionBridge.init({
+            settings: {
+              leftOperand: '{{foo}}',
+              comparison: {
+                operator
+              },
+              rightOperand: 456
+            }
           });
 
           const {
@@ -279,13 +262,13 @@ describe('value comparison condition view', () => {
         });
 
         test('sets settings from form values', async () => {
-          await act(async () => {
-            extensionBridge.init();
-          });
+          renderView(ValueComparison);
+
+          extensionBridge.init();
 
           const { leftOperandTextfield, operatorSelect } = getFromFields();
 
-          inputOnChange(leftOperandTextfield, '{{foo}}');
+          await changeInputValue(leftOperandTextfield, '{{{{foo}}');
           await changePickerValue(
             operatorSelect,
             metaByOperator[operator].label
@@ -293,7 +276,7 @@ describe('value comparison condition view', () => {
 
           const { rightOperandTextfield } = getFromFields();
 
-          inputOnChange(rightOperandTextfield, '456');
+          await changeInputValue(rightOperandTextfield, '456');
 
           expect(extensionBridge.getSettings()).toEqual({
             leftOperand: '{{foo}}',
@@ -305,21 +288,19 @@ describe('value comparison condition view', () => {
         });
 
         test('sets errors if required values are not provided', async () => {
-          await act(async () => {
-            extensionBridge.init({
-              settings: {
-                leftOperand: '',
-                comparison: {
-                  operator
-                },
-                rightOperand: ''
-              }
-            });
+          renderView(ValueComparison);
+
+          extensionBridge.init({
+            settings: {
+              leftOperand: '',
+              comparison: {
+                operator
+              },
+              rightOperand: ''
+            }
           });
 
-          await act(async () => {
-            expect(extensionBridge.validate()).resolves.toBe(false);
-          });
+          await extensionBridge.validate();
 
           const { leftOperandTextfield, rightOperandTextfield } =
             getFromFields();
@@ -335,15 +316,15 @@ describe('value comparison condition view', () => {
     ['isTrue', 'isTruthy', 'isFalse', 'isFalsy'].forEach((operator) => {
       describe(`when operator is ${operator}`, () => {
         test('sets form values from settings', async () => {
-          await act(async () => {
-            extensionBridge.init({
-              settings: {
-                leftOperand: '{{foo}}',
-                comparison: {
-                  operator
-                }
+          renderView(ValueComparison);
+
+          extensionBridge.init({
+            settings: {
+              leftOperand: '{{foo}}',
+              comparison: {
+                operator
               }
-            });
+            }
           });
 
           const { leftOperandTextfield, operatorSelect } = getFromFields();
@@ -355,13 +336,13 @@ describe('value comparison condition view', () => {
         });
 
         test('sets settings from form values', async () => {
-          await act(async () => {
-            extensionBridge.init();
-          });
+          renderView(ValueComparison);
+
+          extensionBridge.init();
 
           const { leftOperandTextfield, operatorSelect } = getFromFields();
 
-          inputOnChange(leftOperandTextfield, '{{foo}}');
+          await changeInputValue(leftOperandTextfield, '{{{{foo}}');
           await changePickerValue(
             operatorSelect,
             metaByOperator[operator].label
@@ -376,18 +357,17 @@ describe('value comparison condition view', () => {
         });
 
         test('sets errors if required values are not provided', async () => {
-          await act(async () => {
-            extensionBridge.init({
-              settings: {
-                comparison: {
-                  operator
-                }
+          renderView(ValueComparison);
+
+          extensionBridge.init({
+            settings: {
+              comparison: {
+                operator
               }
-            });
+            }
           });
-          await act(async () => {
-            expect(extensionBridge.validate()).resolves.toBe(false);
-          });
+
+          await extensionBridge.validate();
 
           const { leftOperandTextfield } = getFromFields();
 
@@ -398,17 +378,17 @@ describe('value comparison condition view', () => {
   });
 
   test('warns user about no type conversions for specific string values', async () => {
-    await act(async () => {
-      extensionBridge.init({
-        settings: {
-          leftOperand: '{{foo}}',
-          comparison: {
-            operator: 'equals',
-            caseInsensitive: true
-          },
-          rightOperand: 'true'
-        }
-      });
+    renderView(ValueComparison);
+
+    extensionBridge.init({
+      settings: {
+        leftOperand: '{{foo}}',
+        comparison: {
+          operator: 'equals',
+          caseInsensitive: true
+        },
+        rightOperand: 'true'
+      }
     });
 
     const { noTypeConversionReminders } = getFromFields();

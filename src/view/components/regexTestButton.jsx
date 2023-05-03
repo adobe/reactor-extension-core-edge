@@ -13,7 +13,7 @@ governing permissions and limitations under the License.
 import React from 'react';
 import { ActionButton } from '@adobe/react-spectrum';
 
-export default (props) => {
+export default function RegexTestButton(props) {
   const { value, onChange, flags = 'i' } = props;
 
   const options = {
@@ -31,4 +31,4 @@ export default (props) => {
       Test
     </ActionButton>
   );
-};
+}

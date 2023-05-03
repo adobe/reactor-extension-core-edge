@@ -10,8 +10,6 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-'use strict';
-
 const valueComparison = require('../valueComparison');
 const conditionDelegate = (settings) =>
   valueComparison({ utils: { getSettings: () => settings } });

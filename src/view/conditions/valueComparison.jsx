@@ -18,7 +18,7 @@ import getInitialValues from './valueComparison/form/getInitValues';
 import getSettings from './valueComparison/form/getSettings';
 import validate from './valueComparison/form/validate';
 
-export default () => {
+export default function valueComparisonView() {
   return (
     <ExtensionView
       getInitialValues={({ initInfo }) => ({
@@ -29,4 +29,4 @@ export default () => {
       render={() => <Fields />}
     />
   );
-};
+}

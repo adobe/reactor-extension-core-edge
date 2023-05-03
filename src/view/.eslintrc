@@ -1,5 +1,5 @@
 {
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module",
@@ -26,14 +26,6 @@
         "depth": 1
       }
     ],
-    "space-before-function-paren": [
-      2,
-      {
-        "anonymous": "always",
-        "named": "never",
-        "asyncArrow": "always"
-      }
-    ],
     "max-len": [
       2,
       100,
@@ -48,7 +40,7 @@
     "no-param-reassign": 0,
     "no-prototype-builtins": 0,
     "jsx-a11y/label-has-for": 0,
-    "spaced-comment": 0, // To support our copyright banner.
+    "jsx-a11y/anchor-is-valid": 0,
     "prefer-const": [
       "error",
       {

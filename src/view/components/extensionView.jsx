@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Adobe. All rights reserved.
+Copyright 2022 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -18,35 +18,26 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { View } from '@adobe/react-spectrum';
 import PropTypes from 'prop-types';
 import ErrorBoundary from './errorBoundary';
-import RenderCycleContext from './renderCycleContext';
 import { updateFetchSettings } from '../utils/fetch';
-import getUniqueKeyGenerator from '../utils/getUniqueKeyGenerator';
 // import DisplayFormState from './displayFormState';
+let id = 0;
 
-const generateNewKey = getUniqueKeyGenerator('cycle');
-
-const generateNewRenderCycle = (() => {
-  let generateNewKeyNextTime = false;
-
-  return (setKey) => {
-    if (generateNewKeyNextTime) {
-      setKey(generateNewKey());
-    } else {
-      generateNewKeyNextTime = true;
-    }
-  };
-})();
-
-const initialKey = generateNewKey();
-
-const ExtensionView = ({ getInitialValues, getSettings, validate, render }) => {
-  const [isInitialized, setIsInitialized] = useState(false);
-  const [renderedCycle, setRenderedCycle] = useState(initialKey);
+const ExtensionView = function ExtensionView({
+  getInitialValues,
+  getSettings,
+  validate,
+  render
+}) {
+  const [initId, setInitId] = useState(0);
 
   const methods = useForm({
-    mode: 'onTouched',
+    mode: 'onBlur',
     shouldUnregister: false,
-    resolver: (values) => ({ values, errors: validate(values) })
+    resolver: (values) => {
+      const errors = validate(values);
+      // console.log('VALIDATE', errors);
+      return { values, errors };
+    }
   });
 
   useEffect(() => {
@@ -54,10 +45,9 @@ const ExtensionView = ({ getInitialValues, getSettings, validate, render }) => {
 
     window.extensionBridge.register({
       init: (_initInfo = {}) => {
-        setIsInitialized(false);
+        setInitId(false);
 
         initInfo = _initInfo;
-
         methods.reset(getInitialValues({ initInfo }));
 
         updateFetchSettings({
@@ -67,11 +57,8 @@ const ExtensionView = ({ getInitialValues, getSettings, validate, render }) => {
           propertyId: initInfo.propertySettings.id
         });
 
-        // We want to rerender the component on every
-        // init call after the initial one.
-        generateNewRenderCycle(setRenderedCycle);
-
-        setIsInitialized(true);
+        id += 1;
+        setInitId(id);
       },
 
       getSettings: () =>
@@ -85,20 +72,18 @@ const ExtensionView = ({ getInitialValues, getSettings, validate, render }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return isInitialized ? (
-    <RenderCycleContext.Provider value={renderedCycle}>
-      <View margin="size-200" key={renderedCycle}>
-        <ErrorBoundary>
-          <FormProvider
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...methods}
-          >
-            <form>{render()}</form>
-            {/* <DisplayFormState /> */}
-          </FormProvider>
-        </ErrorBoundary>
-      </View>
-    </RenderCycleContext.Provider>
+  return initId > 0 ? (
+    <View margin="size-200" key={id}>
+      <ErrorBoundary>
+        <FormProvider
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...methods}
+        >
+          <form>{render()}</form>
+          {/* <DisplayFormState /> */}
+        </FormProvider>
+      </ErrorBoundary>
+    </View>
   ) : null;
 };
 

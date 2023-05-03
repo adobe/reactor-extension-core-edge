@@ -43,7 +43,7 @@ const openDataElementSelector =
       });
   };
 
-export default ({
+export default function WrappedFieldtext({
   component: Component = TextField,
   name: componentName,
   onChange: componentOnChange,
@@ -52,7 +52,7 @@ export default ({
   defaultValue = '',
   width = 'auto',
   ...rest
-}) => {
+}) {
   const methods = useFormContext();
 
   return (
@@ -102,4 +102,4 @@ export default ({
       {...rest}
     />
   );
-};
+}

@@ -11,7 +11,6 @@ governing permissions and limitations under the License.
 */
 
 /*eslint eqeqeq:0*/
-'use strict';
 
 // isFinite weeds out NaNs.
 const isNumber = (value) => typeof value === 'number' && isFinite(value);

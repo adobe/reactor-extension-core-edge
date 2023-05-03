@@ -24,7 +24,7 @@ import Info from '@spectrum-icons/workflow/Info';
 import EditorButton from '../../../components/editorButton';
 import WrappedTextField from '../../../components/wrappedTextField';
 
-export default () => {
+export default function CustomCodeFields() {
   const {
     control,
     formState: { errors },
@@ -90,4 +90,4 @@ export default () => {
       </Flex>
     </>
   );
-};
+}

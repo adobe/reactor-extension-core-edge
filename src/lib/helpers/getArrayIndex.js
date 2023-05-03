@@ -10,8 +10,6 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-'use strict';
-
 module.exports = function (i) {
   var match = i.match(/\[([0-9]+)]$/);
   return match && match[1];

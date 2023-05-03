@@ -10,9 +10,9 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-/*eslint no-restricted-globals: 0*/
-/*eslint object-curly-newline: 0*/
-/*eslint implicit-arrow-linebreak: 0*/
+/* eslint no-restricted-globals: 0 */
+/* eslint object-curly-newline: 0 */
+/* eslint implicit-arrow-linebreak: 0 */
 export const isNumberLike = (value) =>
   !isNaN(value) && (typeof value !== 'string' || value.trim().length > 0);
 

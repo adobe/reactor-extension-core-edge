@@ -41,14 +41,22 @@ const onClick = ({ onChange, value, language, placeholder }) => {
   });
 };
 
-export default ({ onChange, value, language, placeholder, ...rest }) => (
-  <Button
-    variant="primary"
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    {...rest}
-    onPress={() => onClick({ onChange, value, language, placeholder })}
-  >
-    <Code />
-    <Text>Open Editor</Text>
-  </Button>
-);
+export default function EditorButton({
+  onChange,
+  value,
+  language,
+  placeholder,
+  ...rest
+}) {
+  return (
+    <Button
+      variant="primary"
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...rest}
+      onPress={() => onClick({ onChange, value, language, placeholder })}
+    >
+      <Code />
+      <Text>Open Editor</Text>
+    </Button>
+  );
+}

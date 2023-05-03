@@ -18,7 +18,7 @@ import getInitialValues from './path/form/getInitValues';
 import getSettings from './path/form/getSettings';
 import validate from './path/form/validate';
 
-export default () => {
+export default function PathView() {
   return (
     <ExtensionView
       getInitialValues={({ initInfo }) => ({
@@ -29,4 +29,4 @@ export default () => {
       render={() => <Fields />}
     />
   );
-};
+}

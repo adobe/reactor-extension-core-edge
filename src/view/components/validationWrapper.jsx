@@ -41,7 +41,7 @@ const showError = (obj, path) => {
   return obj;
 };
 
-export default ({ children, width }) => {
+export default function ValidationWrapper({ children, width }) {
   const [firstChild, ...restChildren] = children;
   const fieldName = firstChild.props.name;
   const {
@@ -64,4 +64,4 @@ export default ({ children, width }) => {
       {restChildren}
     </Flex>
   );
-};
+}
