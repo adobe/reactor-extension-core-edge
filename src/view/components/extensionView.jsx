@@ -44,11 +44,10 @@ const ExtensionView = function ExtensionView({
     let initInfo;
 
     window.extensionBridge.register({
-      init: (_initInfo = {}) => {
+      init: async (_initInfo = {}) => {
         setInitId(false);
 
         initInfo = _initInfo;
-        methods.reset(getInitialValues({ initInfo }));
 
         updateFetchSettings({
           apiEndpoint: initInfo.apiEndpoints?.reactor,
@@ -56,6 +55,8 @@ const ExtensionView = function ExtensionView({
           token: initInfo.tokens.imsAccess,
           propertyId: initInfo.propertySettings.id
         });
+
+        methods.reset(await getInitialValues({ initInfo }));
 
         id += 1;
         setInitId(id);

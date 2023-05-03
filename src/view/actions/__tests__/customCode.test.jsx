@@ -39,7 +39,7 @@ describe('custom code action view', () => {
   test('sets form values from settings', async () => {
     renderView(CustomCode);
 
-    extensionBridge.init({
+    await extensionBridge.init({
       settings: {
         keyname: 'key',
         source: 'bar'
@@ -50,7 +50,7 @@ describe('custom code action view', () => {
 
     expect(keyNameTextfield.value).toBe('');
 
-    extensionBridge.init({
+    await extensionBridge.init({
       settings: {
         keyName: 'name',
         source: 'bar'
@@ -65,7 +65,7 @@ describe('custom code action view', () => {
   test('sets settings from form values', async () => {
     renderView(CustomCode);
 
-    extensionBridge.init();
+    await extensionBridge.init();
 
     const { keyNameTextfield } = getFromFields();
     await changeInputValue(keyNameTextfield, 'name');
@@ -79,7 +79,7 @@ describe('custom code action view', () => {
   test('sets errors if required values are not provided', async () => {
     renderView(CustomCode);
 
-    extensionBridge.init();
+    await extensionBridge.init();
 
     await extensionBridge.validate();
 
@@ -92,7 +92,7 @@ describe('custom code action view', () => {
   test('allows user to provide custom code', async () => {
     renderView(CustomCode);
 
-    extensionBridge.init({
+    await extensionBridge.init({
       settings: {
         keyName: 'name',
         source: 'foo'

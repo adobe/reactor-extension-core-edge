@@ -42,7 +42,7 @@ describe('wrapped text field', () => {
       />
     ));
 
-    extensionBridge.init();
+    await extensionBridge.init();
 
     const input = screen.getByRole('textbox');
     const dataElementButton = screen.getByRole('button');

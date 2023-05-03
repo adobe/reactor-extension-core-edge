@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Adobe. All rights reserved.
+Copyright 2021 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -10,20 +10,18 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import actionSources from '../helpers/actionSources';
+import fetch, { getFetchSettings } from '../../../utils/fetch';
 
-const { getActionSourceId } = actionSources;
+export default () => {
+  const { propertyId } = getFetchSettings();
 
-export default (values) => {
-  const errors = {};
+  const url = `/properties/${propertyId}/extensions?page[size]=999&page[number]=1`;
 
-  if (!values.action) {
-    errors.action = 'Please select an action.';
-  }
-
-  if (!values.path && getActionSourceId(values.action) === 'custom') {
-    errors.path = 'Please specify a path.';
-  }
-
-  return errors;
+  return fetch(url).catch((e) => {
+    if (e instanceof TypeError) {
+      throw new Error(`${e.message} when loading ${url}`);
+    } else {
+      throw e;
+    }
+  });
 };

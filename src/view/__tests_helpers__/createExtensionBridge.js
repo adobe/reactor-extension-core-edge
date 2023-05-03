@@ -20,15 +20,15 @@ export default () => {
     register(options) {
       registeredOptions = options;
     },
-    init(initInfo) {
+    async init(initInfo) {
       initInfo = {
         company: { orgId: 'ORG_ID' },
         tokens: { imsAccess: 'IMS_ACCESS' },
         propertySettings: { id: 'PROPERTY_ID' },
         ...initInfo
       };
-      act(() => {
-        registeredOptions.init.apply(this, [initInfo]);
+      await act(async () => {
+        await registeredOptions.init.apply(this, [initInfo]);
       });
     },
     async validate(...args) {

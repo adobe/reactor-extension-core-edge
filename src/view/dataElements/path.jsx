@@ -21,10 +21,10 @@ import validate from './path/form/validate';
 export default function PathView() {
   return (
     <ExtensionView
-      getInitialValues={({ initInfo }) => ({
-        ...getInitialValues(initInfo)
+      getInitialValues={async ({ initInfo }) => ({
+        ...(await getInitialValues(initInfo))
       })}
-      getSettings={({ values }) => ({ ...getSettings(values) })}
+      getSettings={async ({ values }) => ({ ...(await getSettings(values)) })}
       validate={(values) => ({ ...validate(values) })}
       render={() => <Fields />}
     />
