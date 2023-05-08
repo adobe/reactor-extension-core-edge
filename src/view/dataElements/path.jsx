@@ -12,6 +12,7 @@ governing permissions and limitations under the License.
 
 import React from 'react';
 import ExtensionView from '../components/extensionView';
+import RenderCycleContext from '../components/renderCycleContext';
 
 import Fields from './path/components/fields';
 import getInitialValues from './path/form/getInitValues';
@@ -21,12 +22,16 @@ import validate from './path/form/validate';
 export default function PathView() {
   return (
     <ExtensionView
-      getInitialValues={({ initInfo }) => ({
-        ...getInitialValues(initInfo)
+      getInitialValues={async ({ initInfo }) => ({
+        ...(await getInitialValues(initInfo))
       })}
-      getSettings={({ values }) => ({ ...getSettings(values) })}
+      getSettings={async ({ values }) => ({ ...(await getSettings(values)) })}
       validate={(values) => ({ ...validate(values) })}
-      render={() => <Fields />}
+      render={() => (
+        <RenderCycleContext.Consumer>
+          {(renderedCycle) => <Fields renderedCycle={renderedCycle} />}
+        </RenderCycleContext.Consumer>
+      )}
     />
   );
 }

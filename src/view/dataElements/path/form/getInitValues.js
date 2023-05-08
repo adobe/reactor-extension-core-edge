@@ -10,10 +10,57 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-export default ({ settings }) => {
-  const path = settings?.path || '';
+import actionSources from '../helpers/actionSources';
+import loadExtensions from '../api/loadExtensions';
+
+const { getActionSourceName } = actionSources;
+
+export default async ({ settings }) => {
+  let extensions = [];
+
+  try {
+    extensions = await loadExtensions();
+    extensions = extensions.data;
+  } catch (e) {
+    // Don't do anything.
+  }
+
+  let path = settings?.path || '';
+  let action = '';
+  let extension = '';
+  if (path.startsWith('arc.event.xdm')) {
+    action = 'xdm';
+    path = path.replace(/^arc\.event\.xdm\.?/, '');
+  } else if (path.startsWith('arc.ruleStash')) {
+    action = 'stash';
+    path = path.replace(/^arc\.ruleStash\./, '');
+    path = path.split('.');
+    const extensionName = path.shift();
+    const currentExtension = extensions.filter(
+      (x) => x.attributes.name === extensionName
+    )[0];
+    extension = currentExtension?.attributes.display_name || '';
+    if (extension) {
+      path = path.join('.');
+    } else {
+      path = '';
+    }
+  } else if (path.startsWith('arc.event.data')) {
+    action = 'data';
+    path = path.replace(/^arc\.event\.data\.?/, '');
+  } else if (path === 'arc.request') {
+    action = 'request';
+    path = '';
+  } else if (path.startsWith('arc.event')) {
+    action = 'event';
+    path = path.replace(/^arc\.event\.?/, '');
+  } else if (path) {
+    action = 'custom';
+  }
 
   return {
+    action: getActionSourceName(action),
+    extension,
     path
   };
 };

@@ -49,7 +49,7 @@ describe('value comparison condition view', () => {
         test('sets form values from settings ', async () => {
           renderView(ValueComparison);
 
-          extensionBridge.init({
+          await extensionBridge.init({
             settings: {
               leftOperand: '{{foo}}',
               comparison: {
@@ -80,7 +80,7 @@ describe('value comparison condition view', () => {
         test('sets settings from form values', async () => {
           renderView(ValueComparison);
 
-          extensionBridge.init();
+          await extensionBridge.init();
 
           const { leftOperandTextfield, operatorSelect } = getFromFields();
 
@@ -109,7 +109,7 @@ describe('value comparison condition view', () => {
         test('sets errors if required values are not provided', async () => {
           renderView(ValueComparison);
 
-          extensionBridge.init({
+          await extensionBridge.init({
             settings: {
               comparison: {
                 operator
@@ -149,7 +149,7 @@ describe('value comparison condition view', () => {
         test('sets form values from settings ', async () => {
           renderView(ValueComparison);
 
-          extensionBridge.init({
+          await extensionBridge.init({
             settings: {
               leftOperand: '{{foo}}',
               comparison: {
@@ -178,7 +178,7 @@ describe('value comparison condition view', () => {
         test('sets settings from form values', async () => {
           renderView(ValueComparison);
 
-          extensionBridge.init();
+          await extensionBridge.init();
 
           const { leftOperandTextfield, operatorSelect } = getFromFields();
 
@@ -207,7 +207,7 @@ describe('value comparison condition view', () => {
         test('sets errors if required values are not provided', async () => {
           renderView(ValueComparison);
 
-          extensionBridge.init({
+          await extensionBridge.init({
             settings: {
               comparison: {
                 operator
@@ -238,7 +238,7 @@ describe('value comparison condition view', () => {
         test('sets form values from settings', async () => {
           renderView(ValueComparison);
 
-          extensionBridge.init({
+          await extensionBridge.init({
             settings: {
               leftOperand: '{{foo}}',
               comparison: {
@@ -264,7 +264,7 @@ describe('value comparison condition view', () => {
         test('sets settings from form values', async () => {
           renderView(ValueComparison);
 
-          extensionBridge.init();
+          await extensionBridge.init();
 
           const { leftOperandTextfield, operatorSelect } = getFromFields();
 
@@ -290,7 +290,7 @@ describe('value comparison condition view', () => {
         test('sets errors if required values are not provided', async () => {
           renderView(ValueComparison);
 
-          extensionBridge.init({
+          await extensionBridge.init({
             settings: {
               leftOperand: '',
               comparison: {
@@ -318,7 +318,7 @@ describe('value comparison condition view', () => {
         test('sets form values from settings', async () => {
           renderView(ValueComparison);
 
-          extensionBridge.init({
+          await extensionBridge.init({
             settings: {
               leftOperand: '{{foo}}',
               comparison: {
@@ -338,7 +338,7 @@ describe('value comparison condition view', () => {
         test('sets settings from form values', async () => {
           renderView(ValueComparison);
 
-          extensionBridge.init();
+          await extensionBridge.init();
 
           const { leftOperandTextfield, operatorSelect } = getFromFields();
 
@@ -359,7 +359,7 @@ describe('value comparison condition view', () => {
         test('sets errors if required values are not provided', async () => {
           renderView(ValueComparison);
 
-          extensionBridge.init({
+          await extensionBridge.init({
             settings: {
               comparison: {
                 operator
@@ -380,7 +380,7 @@ describe('value comparison condition view', () => {
   test('warns user about no type conversions for specific string values', async () => {
     renderView(ValueComparison);
 
-    extensionBridge.init({
+    await extensionBridge.init({
       settings: {
         leftOperand: '{{foo}}',
         comparison: {

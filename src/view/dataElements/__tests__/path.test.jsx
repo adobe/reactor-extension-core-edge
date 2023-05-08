@@ -18,6 +18,8 @@ import createExtensionBridge from '../../__tests_helpers__/createExtensionBridge
 
 let extensionBridge;
 
+jest.mock('../path/api/loadExtensions');
+
 beforeEach(() => {
   extensionBridge = createExtensionBridge();
   window.extensionBridge = extensionBridge;
@@ -28,14 +30,16 @@ afterEach(() => {
 });
 
 const getFromFields = () => ({
-  pathTextfield: screen.queryByLabelText(/path/i)
+  pathTextfield: screen.queryByLabelText(/path/i, {
+    selector: '[name="path"]'
+  })
 });
 
-describe.skip('path data element view', () => {
+describe('path data element view', () => {
   test('sets form values from settings', async () => {
     renderView(Path);
 
-    extensionBridge.init({
+    await extensionBridge.init({
       settings: {
         path: 'foo'
       }
@@ -48,24 +52,30 @@ describe.skip('path data element view', () => {
   test('sets settings from form values', async () => {
     renderView(Path);
 
-    extensionBridge.init();
+    await extensionBridge.init({
+      settings: {
+        path: 'foo'
+      }
+    });
 
     const { pathTextfield } = getFromFields();
-    await changeInputValue(pathTextfield, 'foo');
+    await changeInputValue(pathTextfield, 'foo2');
 
-    expect(extensionBridge.getSettings()).toEqual({
-      path: 'foo'
+    expect(await extensionBridge.getSettings()).toEqual({
+      path: 'foo2'
     });
   });
 
   test('sets errors if required values are not provided', async () => {
     renderView(Path);
 
-    extensionBridge.init();
+    await extensionBridge.init({ settings: { path: 'foo' } });
+
+    const { pathTextfield } = getFromFields();
+    await changeInputValue(pathTextfield, '');
 
     await extensionBridge.validate();
 
-    const { pathTextfield } = getFromFields();
     expect(pathTextfield).toHaveAttribute('aria-invalid', 'true');
   });
 });

@@ -38,7 +38,7 @@ describe('custom code data element view', () => {
   test('sets errors if required values are not provided', async () => {
     renderView(CustomCode);
 
-    extensionBridge.init();
+    await extensionBridge.init();
 
     await extensionBridge.validate();
 
@@ -49,7 +49,7 @@ describe('custom code data element view', () => {
   test('allows user to provide custom code', async () => {
     renderView(CustomCode);
 
-    extensionBridge.init({
+    await extensionBridge.init({
       settings: {
         source: 'foo'
       }
