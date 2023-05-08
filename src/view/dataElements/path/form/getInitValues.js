@@ -16,8 +16,14 @@ import loadExtensions from '../api/loadExtensions';
 const { getActionSourceName } = actionSources;
 
 export default async ({ settings }) => {
-  let extensions = await loadExtensions();
-  extensions = extensions.data;
+  let extensions = [];
+
+  try {
+    extensions = await loadExtensions();
+    extensions = extensions.data;
+  } catch (e) {
+    // Don't do anything.
+  }
 
   let path = settings?.path || '';
   let action = '';
