@@ -13,28 +13,36 @@ governing permissions and limitations under the License.
 import generateDisableFlag from './generateDisableFlag';
 import generateLabel from './generateLabel';
 
-export default (response) =>
-  response.data
+export default (response) => {
+  const secrets = response.data;
+  const deployments = response.included || [];
+  return deployments
     .map(
       ({
-        id,
-        attributes: { name, status, refresh_at: refreshAt },
+        attributes: { status },
         relationships: {
-          environment: { meta: { stage: environmentType } = {} }
-        },
-        meta: { refresh_status: refreshStatus } = {}
-      }) => ({
-        id,
-        name,
-        environmentType,
-        disabled: generateDisableFlag({ status }),
-        label: generateLabel({
-          name,
-          status,
-          refreshStatus,
-          refreshAt
-        })
-      })
+          secret: {
+            data: { id: secretId }
+          },
+          environment: {
+            meta: { stage: environmentType }
+          }
+        }
+      }) => {
+        const secret = secrets.find((s) => s.id === secretId);
+        return {
+          id: secret.id,
+          name: secret.attributes.name,
+          environmentType,
+          disabled: generateDisableFlag({ status }),
+          label: generateLabel({
+            name: secret.attributes.name,
+            status,
+            refreshStatus: secret?.meta?.refresh_status,
+            refreshAt: secret?.attributes?.refresh_at
+          })
+        };
+      }
     )
     .reduce(
       (acc, curr) => {
@@ -45,3 +53,4 @@ export default (response) =>
       },
       { development: [], staging: [], production: [] }
     );
+};

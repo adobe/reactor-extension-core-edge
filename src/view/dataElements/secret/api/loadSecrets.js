@@ -17,7 +17,7 @@ export default () => {
 
   const url =
     `/properties/${propertyId}/` +
-    'secrets?page[size]=999&page[number]=1&filter[environment_id]=NOT%20null';
+    'secrets?page[size]=999&page[number]=1&include=deployments';
 
   return fetch(url).catch((e) => {
     if (e instanceof TypeError) {
