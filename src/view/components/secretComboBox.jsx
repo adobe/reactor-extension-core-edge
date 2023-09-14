@@ -31,7 +31,7 @@ export default function WrappedComboBoxField({
   const initialValue = list.getItem(rest.defaultSelectedKey)?.value.label || '';
 
   const [fieldState, setFieldState] = React.useState({
-    selectedKey: list.getItem(initialValue)?.value.id || '',
+    selectedKey: list.getItem(rest.defaultSelectedKey)?.value.id || '',
     inputValue: initialValue
   });
 
@@ -61,9 +61,8 @@ export default function WrappedComboBoxField({
       onSelectionChange={(key) => {
         setFieldState((prevState) => {
           const inputValue =
-            list.getItem(key)?.value.name ??
+            list.getItem(key)?.value.label ??
             (rest.allowsCustomValue ? prevState.inputValue : '');
-
           return {
             inputValue,
             selectedKey: key
