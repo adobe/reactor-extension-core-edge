@@ -12,16 +12,26 @@ governing permissions and limitations under the License.
 
 import fetch, { getFetchSettings } from '../../../utils/fetch';
 
-export default () => {
+let data;
+
+export default async () => {
+  if (data) {
+    return data;
+  }
+
   const { propertyId } = getFetchSettings();
 
   const url = `/properties/${propertyId}/extensions?page[size]=999&page[number]=1`;
 
-  return fetch(url).catch((e) => {
+  try {
+    const d = await fetch(url);
+    data = d;
+    return d;
+  } catch (e) {
     if (e instanceof TypeError) {
       throw new Error(`${e.message} when loading ${url}`);
     } else {
       throw e;
     }
-  });
+  }
 };
