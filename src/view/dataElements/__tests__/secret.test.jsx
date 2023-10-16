@@ -52,7 +52,7 @@ describe('secret data element view', () => {
   test('sets form values from settings', async () => {
     renderView(Secret);
 
-    extensionBridge.init({
+    await extensionBridge.init({
       settings: {
         secrets: {
           production: {
@@ -85,7 +85,7 @@ describe('secret data element view', () => {
   test.skip('sets settings from form values', async () => {
     renderView(Secret);
 
-    extensionBridge.init();
+    await extensionBridge.init();
 
     const {
       developmentSecretComboBox,
@@ -121,7 +121,7 @@ describe('secret data element view', () => {
   test('marks an unexisting secret as deleted inside the combobox', async () => {
     renderView(Secret);
 
-    extensionBridge.init({
+    await extensionBridge.init({
       settings: {
         secrets: {
           development: {
