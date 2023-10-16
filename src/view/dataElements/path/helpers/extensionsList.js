@@ -10,30 +10,11 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import fetch, { getFetchSettings } from '../../../utils/fetch';
-import extensionsList from '../helpers/extensionsList';
-
 let data;
 
-export default async () => {
-  if (data) {
-    return data;
-  }
-
-  const { propertyId } = getFetchSettings();
-
-  const url = `/properties/${propertyId}/extensions?page[size]=999&page[number]=1`;
-
-  try {
-    const d = await fetch(url);
+export default {
+  get: () => data,
+  set: (d) => {
     data = d;
-    extensionsList.set(d);
-    return d;
-  } catch (e) {
-    if (e instanceof TypeError) {
-      throw new Error(`${e.message} when loading ${url}`);
-    } else {
-      throw e;
-    }
   }
 };

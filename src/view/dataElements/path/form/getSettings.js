@@ -11,13 +11,13 @@ governing permissions and limitations under the License.
 */
 
 import actionSources from '../helpers/actionSources';
-import loadExtensions from '../api/loadExtensions';
+import extensionsList from '../helpers/extensionsList';
 
 const { getActionSourceId } = actionSources;
 
-export default async ({ path, action, extension }) => {
+export default ({ path, action, extension }) => {
   action = getActionSourceId(action);
-  const extensions = await loadExtensions();
+  const extensions = extensionsList.get();
 
   const currentExtension = (extensions?.data || []).filter(
     (x) => x.attributes.display_name === extension
