@@ -59,5 +59,5 @@ export const findComboBoxOption = async (comboboxInput, optionText) => {
 
 export const changeComboBoxValue = async (comboboxInput, newValue) => {
   const option = await findComboBoxOption(comboboxInput, newValue);
-  userEvent.click(option);
+  await userEvent.click(option);
 };
