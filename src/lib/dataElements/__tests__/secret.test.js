@@ -15,8 +15,6 @@ const arc = require('../../__tests__helpers__/arc');
 
 describe('secret data element delegate', function () {
   it('returns the value of a secret', function () {
-    global.ID123 = 'ABC';
-
     var settings = {
       secrets: {
         development: { id: 'ID123' }
@@ -29,12 +27,11 @@ describe('secret data element delegate', function () {
         utils: {
           getSettings: () => settings,
           getBuildInfo: () => ({ environment: 'development' }),
-          getComponent: () => ({})
+          getComponent: () => ({}),
+          getEnv: () => ({ ID123: 'ABC' })
         }
       })
     ).toBe('ABC');
-
-    delete global.ID123;
   });
 
   it('throws an error if no secret config exists for the current environment', function () {
@@ -46,7 +43,8 @@ describe('secret data element delegate', function () {
         utils: {
           getSettings: () => settings,
           getBuildInfo: () => ({ environment: 'development' }),
-          getComponent: () => ({ name: 'DE1' })
+          getComponent: () => ({ name: 'DE1' }),
+          getEnv: () => ({})
         }
       });
     }).toThrow(
@@ -67,7 +65,8 @@ describe('secret data element delegate', function () {
         utils: {
           getSettings: () => settings,
           getBuildInfo: () => ({ environment: 'development' }),
-          getComponent: () => ({ name: 'DE1' })
+          getComponent: () => ({ name: 'DE1' }),
+          getEnv: () => ({})
         }
       });
     }).toThrow(

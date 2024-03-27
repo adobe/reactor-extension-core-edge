@@ -10,14 +10,17 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-module.exports = ({ utils: { getBuildInfo, getSettings, getComponent } }) => {
+module.exports = ({
+  utils: { getBuildInfo, getSettings, getComponent, getEnv }
+}) => {
   const { environment } = getBuildInfo();
   const { secrets = {} } = getSettings();
   const { name: dataElementName } = getComponent();
+  const env = getEnv();
 
   if (secrets[environment]) {
     const { id, name } = secrets[environment];
-    const secret = global[id];
+    const secret = env[id];
 
     if (!secret) {
       throw new Error(
