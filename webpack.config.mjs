@@ -14,16 +14,21 @@ import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { createRequire } from 'module';
 
-import extension from './extension.json' assert { type: 'json' };
 import camelCase from 'camelcase';
 import capitalize from 'capitalize';
 import createEntryFile from './createEntryFile.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
 const entries = {};
 const plugins = [];
+
+const require = createRequire(import.meta.url);
+
+const extension = require('./extension.json');
 
 export default (env, argv) => {
   // Each view becomes its own "app". These are automatically generated based on naming convention.
